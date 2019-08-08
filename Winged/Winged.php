@@ -25,10 +25,10 @@ try {
 /**
  * This class its a main class of Winged
  *
- * @version       1.8.3.5
+ * @version       2.0.0.0
  * @access        public static object
  * @author        Matheus Prado Rodrigues
- * @copyright (c) 2017, Winged Framework
+ * @copyright (c) 2019, Winged Framework
  */
 class Winged
 {

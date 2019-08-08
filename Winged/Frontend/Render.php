@@ -328,6 +328,7 @@ class Render extends Assets
 
             ?>
         </head>
+
         <body <?= $this->bodyId() ? 'id="' . $this->bodyId() . '"' : '' ?>
                 class="<?php
                 $f = '';

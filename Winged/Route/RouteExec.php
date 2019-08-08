@@ -3,7 +3,6 @@
 namespace Winged\Route;
 
 use Winged\Buffer\Buffer;
-use Winged\Database\Connections;
 use Winged\Date\Date;
 use Winged\Error\Error;
 use Winged\File\File;
@@ -11,15 +10,20 @@ use Winged\Http\HttpResponseHandler;
 use Winged\Http\Session;
 use Winged\Utils\RandomName;
 use Winged\Utils\WingedLib;
-use Winged\Winged;
+use Winged\App\App;
 use WingedConfig;
 
 /**
  * Class Route
+ *
  * @package Winged\Route
  */
 class RouteExec extends Route
 {
+
+    /**
+     * @return bool
+     */
     public static function sendErrorResponse()
     {
         if (!empty(self::$response) && !empty(self::$routes)) {
@@ -35,12 +39,12 @@ class RouteExec extends Route
                     break;
                 case 404:
                     header('HTTP/1.0 ' . self::$response['response'] . ' Not Found');
-                    $file = new File(WingedConfig::$config->NOTFOUND, false);
+                    $file = new File(WingedConfig::$config->NOT_FOUND_FILE_PATH, false);
                     if ($file->exists()) {
                         Buffer::reset();
-                        include_once WingedConfig::$config->NOTFOUND;
+                        include_once WingedConfig::$config->NOT_FOUND_FILE_PATH;
                         Buffer::flushKill();
-                        Winged::_exit();
+                        App::_exit();
                     }
                     break;
                 case 200:
@@ -75,11 +79,45 @@ class RouteExec extends Route
         return false;
     }
 
+
+    public static function findValidRoute()
+    {
+        $uri = WingedLib::clearPath(App::$uri);
+        if (!$uri) {
+            $uri = [];
+        } else {
+            $uri = explode('/', $uri);
+        }
+        $valid = null;
+        foreach (self::$routes as $register => &$route) {
+            if ($route->getUri() === '/') {
+                $registredUri = [];
+            } else {
+                $registredUri = explode('/', $route->getUri());
+            }
+            if(count($registredUri) >= count($uri)){
+                foreach ($route->getParsedUri() as $parsed){
+                    if($route->getFailedIn()){
+                        continue;
+                    }
+                    if($parsed['type'] === 'name'){
+                        $route->addPriority();
+                    }
+                    if($parsed['type'] === 'arg'){
+
+                    }
+                }
+            }
+
+        }
+    }
+
     /**
      * @return bool
      */
     public static function execute()
     {
+        self::findValidRoute();
         $headers = \getallheaders();
         $accept = isset($headers['Accept']) ? $headers['Accept'] : 'application/json';
         switch ($accept) {
@@ -105,10 +143,17 @@ class RouteExec extends Route
         /**
          * @var $route Route
          */
-        $uri = WingedLib::explodePath(Winged::$uri);
+        $uri = WingedLib::explodePath(App::$uri);
+        if (is_bool($uri)) {
+            $uriCount = 0;
+        } else {
+            $uriCount = count7($uri);
+        }
         $times = 0;
         foreach (self::$routes as $register => $route) {
-            if (count7(Route::$part[$route->name]->uri) === count7($uri)) {
+
+
+            if (Route::$part[$route->name]->uri_count === $uriCount || count7(Route::$part[$route->name]->uri) === $uriCount) {
                 $times++;
                 $index = 0;
                 $break = false;
@@ -179,6 +224,21 @@ class RouteExec extends Route
                 }
 
                 if (is_get() && self::$part[$register]->http != 'get') {
+                    self::$part[$register]->_502 = 'The route can\'t respond with found method in your http protocol.';
+                    continue;
+                }
+
+                if (is_get() && self::$part[$register]->http != 'patch') {
+                    self::$part[$register]->_502 = 'The route can\'t respond with found method in your http protocol.';
+                    continue;
+                }
+
+                if (is_get() && self::$part[$register]->http != 'options') {
+                    self::$part[$register]->_502 = 'The route can\'t respond with found method in your http protocol.';
+                    continue;
+                }
+
+                if (is_get() && self::$part[$register]->http != 'raw') {
                     self::$part[$register]->_502 = 'The route can\'t respond with found method in your http protocol.';
                     continue;
                 }

@@ -13,13 +13,21 @@ class Formater
     public static function intToCurrency($int = 0, $length = 2, $left = ',', $right = '.')
     {
         $int = numeric_is($int);
-        if($int){
+        if ($int) {
             $currency = $int / 100;
             return number_format($currency, $length, $right, $left);
         }
         return '0' . $right . '00';
     }
 
+    /**
+     * remove all accents in string
+     *
+     * @param     $str
+     * @param int $lowerCase
+     *
+     * @return string
+     */
     public static function removeAccents($str, $lowerCase = Formater::KEEP_FORMAT)
     {
         $conv = ['À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'ß' => 's', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ý' => 'y', 'ÿ' => 'y', 'Ā' => 'A', 'ā' => 'a', 'Ă' => 'A', 'ă' => 'a', 'Ą' => 'A', 'ą' => 'a', 'Ć' => 'C', 'ć' => 'c', 'Ĉ' => 'C', 'ĉ' => 'c', 'Ċ' => 'C', 'ċ' => 'c', 'Č' => 'C', 'č' => 'c', 'Ď' => 'D', 'ď' => 'd', 'Đ' => 'D', 'đ' => 'd', 'Ē' => 'E', 'ē' => 'e', 'Ĕ' => 'E', 'ĕ' => 'e', 'Ė' => 'E', 'ė' => 'e', 'Ę' => 'E', 'ę' => 'e', 'Ě' => 'E', 'ě' => 'e', 'Ĝ' => 'G', 'ĝ' => 'g', 'Ğ' => 'G', 'ğ' => 'g', 'Ġ' => 'G', 'ġ' => 'g', 'Ģ' => 'G', 'ģ' => 'g', 'Ĥ' => 'H', 'ĥ' => 'h', 'Ħ' => 'H', 'ħ' => 'h', 'Ĩ' => 'I', 'ĩ' => 'i', 'Ī' => 'I', 'ī' => 'i', 'Ĭ' => 'I', 'ĭ' => 'i', 'Į' => 'I', 'į' => 'i', 'İ' => 'I', 'ı' => 'i', 'Ĳ' => 'IJ', 'ĳ' => 'ij', 'Ĵ' => 'J', 'ĵ' => 'j', 'Ķ' => 'K', 'ķ' => 'k', 'ĸ' => 'k', 'Ĺ' => 'L', 'ĺ' => 'l', 'Ļ' => 'L', 'ļ' => 'l', 'Ľ' => 'L', 'ľ' => 'l', 'Ŀ' => 'L', 'ŀ' => 'l', 'Ł' => 'L', 'ł' => 'l', 'Ń' => 'N', 'ń' => 'n', 'Ņ' => 'N', 'ņ' => 'n', 'Ň' => 'N', 'ň' => 'n', 'ŉ' => 'N', 'Ŋ' => 'n', 'ŋ' => 'N', 'Ō' => 'O', 'ō' => 'o', 'Ŏ' => 'O', 'ŏ' => 'o', 'Ő' => 'O', 'ő' => 'o', 'Œ' => 'OE', 'œ' => 'oe', 'Ŕ' => 'R', 'ŕ' => 'r', 'Ŗ' => 'R', 'ŗ' => 'r', 'Ř' => 'R', 'ř' => 'r', 'Ś' => 'S', 'ś' => 's', 'Ŝ' => 'S', 'ŝ' => 's', 'Ş' => 'S', 'ş' => 's', 'Š' => 'S', 'š' => 's', 'Ţ' => 'T', 'ţ' => 't', 'Ť' => 'T', 'ť' => 't', 'Ŧ' => 'T', 'ŧ' => 't', 'Ũ' => 'U', 'ũ' => 'u', 'Ū' => 'U', 'ū' => 'u', 'Ŭ' => 'U', 'ŭ' => 'u', 'Ů' => 'U', 'ů' => 'u', 'Ű' => 'U', 'ű' => 'u', 'Ų' => 'U', 'ų' => 'u', 'Ŵ' => 'W', 'ŵ' => 'w', 'Ŷ' => 'Y', 'ŷ' => 'y', 'Ÿ' => 'Y', 'Ź' => 'Z', 'ź' => 'z', 'Ż' => 'Z', 'ż' => 'z', 'Ž' => 'Z', 'ž' => 'z', 'ſ' => 's'];
@@ -52,6 +60,14 @@ class Formater
     }
 
 
+    /**
+     * remove all symbols in string
+     *
+     * @param     $str
+     * @param int $lowerCase
+     *
+     * @return mixed|string|string[]|null
+     */
     public static function removeSymbols($str, $lowerCase = Formater::KEEP_FORMAT)
     {
 
@@ -91,6 +107,14 @@ class Formater
         }
     }
 
+    /**
+     * remove all spaces in string and trade it by -
+     *
+     * @param     $str
+     * @param int $lowerCase
+     *
+     * @return mixed|string
+     */
     public static function removeSpaces($str, $lowerCase = Formater::KEEP_FORMAT)
     {
         while (is_int(strpos($str, '  '))) {
@@ -128,14 +152,70 @@ class Formater
         }
     }
 
+    /**
+     * tranform string into slug case
+     *
+     * @param     $str
+     * @param int $lowerCase
+     *
+     * @return mixed|string
+     */
     public static function toUrl($str, $lowerCase = Formater::TO_LOWER)
     {
         $url = self::removeSpaces(self::removeSymbols(self::removeAccents($str, $lowerCase), $lowerCase), $lowerCase);
         return $url;
     }
+
+    /**
+     * return any string as camel case class
+     *
+     * @param $string
+     *
+     * @return string | bool
+     */
+    public static function camelCaseClass($string)
+    {
+        $string = self::camelCaseMethod($string);
+        if ($string) {
+            return ucfirst($string);
+        }
+        return false;
+    }
+
+    /**
+     * return any string as camel case method
+     *
+     * @param $string
+     *
+     * @return string | bool
+     */
+    public static function camelCaseMethod($string)
+    {
+        if (is_scalar($string)) {
+            $string = self::toUrl($string);
+            if (is_scalar($string)) {
+                $explodedPath = explode('-', $string);
+                if (count($explodedPath) > 1) {
+                    for ($x = 1; $x < count($explodedPath); $x++) {
+                        $explodedPath[$x] = ucfirst($explodedPath[$x]);
+                    }
+                }
+                return join('', $explodedPath);
+            }
+        }
+        return false;
+    }
+
 }
 
 if (!function_exists('mb_ucfirst')) {
+    /**
+     * @param        $str
+     * @param string $encoding
+     * @param bool   $lower_str_end
+     *
+     * @return string
+     */
     function mb_ucfirst($str, $encoding = 'UTF-8', $lower_str_end = false)
     {
         $first_letter = mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding);

@@ -3,7 +3,6 @@
 use Winged\Buffer\Buffer;
 use Winged\Winged;
 use Winged\Database\CurrentDB;
-use Winged\Database\Connections;
 
 /**
  * return all memory used

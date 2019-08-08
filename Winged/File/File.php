@@ -334,7 +334,7 @@ class File
         if ($this->file_path != null) {
             $exp = explode('.', $this->file_path);
             $end = array_pop($exp);
-            return $end;
+            return strtolower($end);
         }
         return false;
     }

@@ -16,7 +16,7 @@ class Upload
         "doc" => [".docx", ".txt", ".doc", ".pdf", ".csv"],
         "zip" => [".zip", ".rar", ".tar", ".tar.gz"],
         "audio" => [".mp3", ".ogg", ".wav"],
-        "video" => [".mp4", ".avi", ".mpeg", ".wmv", "webm", "ogg"],
+        "video" => [".mp4", ".avi", ".mpeg", ".wmv", ".webm", ".ogg", ".mov"],
     ];
     private $allowed = [], $max_size, $path, $lastuploaded = [], $nametype;
 

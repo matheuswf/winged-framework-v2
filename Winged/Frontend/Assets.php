@@ -50,12 +50,12 @@ class Assets
     protected $htmlId = null;
 
     /**
-     * @var $minifyJs MinifyMasterJS
+     * @var $minifyJs MinifyJS
      */
     private $minifyJs;
 
     /**
-     * @var $minifyCss MinifyMasterCSS
+     * @var $minifyCss MinifyCSS
      */
     private $minifyCss;
 

@@ -11,7 +11,7 @@ class Caster
     /**
      * cast to int
      *
-     * @param bool $value
+     * @param bool|string|int $value
      *
      * @return bool|int
      */
@@ -34,7 +34,7 @@ class Caster
     /**
      * cast to float
      *
-     * @param bool $value
+     * @param bool|string|int $value
      *
      * @return bool|float
      */
@@ -56,6 +56,24 @@ class Caster
             preg_replace("/[^0-9]/", "", substr($value, 0, $sep)) . '.' .
             preg_replace("/[^0-9]/", "", substr($value, $sep + 1, strlen($value)))
         );
+    }
+
+    /**
+     * cast to float ou int
+     *
+     * @param bool $value
+     *
+     * @return bool|float|int
+     */
+    public static function toNumber($value = false)
+    {
+        $float = self::toFloat($value);
+        $int = self::toInt($value);
+        if ($float == $int) {
+            return $int;
+        } else {
+            return $float;
+        }
     }
 
     /**

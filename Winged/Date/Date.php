@@ -386,7 +386,7 @@ class Date
             'date_info' => $infos,
         ];
 
-        return recursive_object($differences);
+        return $this->recursiveObject($differences);
     }
 
     /**
@@ -413,7 +413,7 @@ class Date
      *
      * @param bool $from_first_day
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function weekInterval($from_first_day = false)
     {
@@ -457,14 +457,14 @@ class Date
 
         if ($from_first_day) {
 
-            return recursive_object([
+            return $this->recursiveObject([
                 'begin' => date('Y-m-d', $this->timestamp()),
                 'end' => date('Y-m-d', $this->timestamp() + $interval['last'] * 24 * 60 * 60)
             ]);
 
         }
 
-        return recursive_object([
+        return $this->recursiveObject([
             'begin' => date('Y-m-d', $this->timestamp() - $interval['first'] * 24 * 60 * 60),
             'end' => date('Y-m-d', $this->timestamp() + $interval['last'] * 24 * 60 * 60)
         ]);
@@ -476,17 +476,17 @@ class Date
      *
      * @param bool $from_first_day
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function monthInterval($from_first_day = true)
     {
         if ($from_first_day) {
-            return recursive_object([
+            return $this->recursiveObject([
                 'begin' => date('Y-m-d', $this->timestamp()),
                 'end' => date("Y-m-t", $this->timestamp())
             ]);
         }
-        return recursive_object([
+        return $this->recursiveObject([
             'begin' => date('Y-m-01', $this->timestamp()),
             'end' => date("Y-m-t", $this->timestamp())
         ]);
@@ -635,6 +635,32 @@ class Date
             'gregorian' => $gregorian,
         ];
     }
+
+    /**
+     * convert array into object recursive
+     *
+     * @param array $arg
+     *
+     * @return object | \stdClass | bool | array
+     */
+    protected function recursiveObject($arg)
+    {
+        if (is_array($arg)) {
+            $arg = (object)$arg;
+        } else {
+            return $arg;
+        }
+        foreach ($arg as $key => $value) {
+            if (is_array($value)) {
+                $value = $this->recursiveObject($value);
+                $arg->{$key} = $value;
+            } else {
+                $arg->{$key} = $value;
+            }
+        }
+        return $arg;
+    }
+
 }
 
 /**
@@ -657,7 +683,7 @@ function _setlocale($lang_charset = false)
     if (!$lang_charset) {
         $lang_charset = 'english';
     }
-    setlocale(LC_ALL, $lang_charset);
+    setlocale(LC_TIME, $lang_charset);
     @putenv('LANG=' . $lang_charset);
     @putenv('LANGUAGE=' . $lang_charset);
     $locale = setlocale(LC_TIME, 0);

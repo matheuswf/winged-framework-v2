@@ -130,91 +130,85 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/assets/js/pages/default.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13345">
-              <caret line="785" column="31" selection-start-line="785" selection-start-column="31" selection-end-line="785" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/assets/css/core/core.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143633">
-              <caret line="8449" column="16" selection-start-line="8449" selection-start-column="16" selection-end-line="8449" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+            <state relative-caret-position="85">
+              <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Winged/Configs/Defines.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Winged/App/App.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="e#30#44#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Winged/Winged.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1123">
+              <caret line="466" column="8" selection-start-line="466" selection-start-column="8" selection-end-line="467" selection-end-column="13" />
+              <folding>
+                <element signature="e#26#51#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/projects/class/MobileDetect.php">
+        <entry file="file://$PROJECT_DIR$/Winged/Route/RouteExec.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/views/news/news/_form.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6528">
-              <caret line="384" column="82" selection-start-line="384" selection-start-column="82" selection-end-line="384" selection-end-column="82" />
+            <state relative-caret-position="199">
+              <caret line="254" column="41" selection-start-line="254" selection-start-column="41" selection-end-line="254" selection-end-column="41" />
               <folding>
-                <element signature="e#105#126#0#PHP" expanded="true" />
+                <element signature="e#32#57#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/assets/js/pages/news.js">
+        <entry file="file://$PROJECT_DIR$/Winged/Route/Route.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
-              <caret line="101" column="35" selection-start-line="101" selection-start-column="35" selection-end-line="101" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/controllers/ServicesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2703">
-              <caret line="159" column="35" selection-start-line="159" selection-start-column="35" selection-end-line="159" selection-end-column="35" />
+            <state relative-caret-position="587">
+              <caret line="583" column="9" selection-start-line="583" selection-start-column="9" selection-end-line="583" selection-end-column="9" />
               <folding>
-                <element signature="e#7#40#0#PHP" expanded="true" />
+                <element signature="e#32#53#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/controllers/NewsController.php">
+        <entry file="file://$PROJECT_DIR$/Winged/Utils/WingedLib.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2193">
-              <caret line="133" selection-start-line="133" selection-end-line="133" />
+            <state relative-caret-position="421">
+              <caret line="84" column="9" lean-forward="true" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projects/admin/models/News.php">
+        <entry file="file://$PROJECT_DIR$/app.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5015">
-              <caret line="295" column="29" selection-start-line="295" selection-start-column="29" selection-end-line="295" selection-end-column="29" />
-              <folding>
-                <element signature="e#7#30#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="221">
+              <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -231,13 +225,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Roboto:400,300,100,500,700,900</find>
-      <find>assets/js/pages/tokenstags.js</find>
-      <find>Source+Sans+Pro:300,400,600,700</find>
-      <find>SPM</find>
-      <find>pre_cle</find>
-      <find>prepareMultipleUpdate</find>
-      <find>slug</find>
       <find>load(</find>
       <find>asdasd</find>
       <find>save()</find>
@@ -260,7 +247,14 @@
       <find>time</find>
       <find>pick</find>
       <find>date</find>
+      <find>winged::</find>
+      <find>wingedhea</find>
+      <find>fullUrlProvider</find>
+      <find>Winged</find>
+      <find>vars</find>
       <find>pre_clea</find>
+      <find>pre_c</find>
+      <find>rule</find>
     </findStrings>
     <replaceStrings>
       <replace>Eloquent</replace>
@@ -315,15 +309,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/projects/admin/views/produtos_subcategorias/produtos_subcategorias/_form.php" />
-        <option value="$PROJECT_DIR$/projects/admin/controllers/LoginController.php" />
-        <option value="$PROJECT_DIR$/projects/admin/views/default/default/_index.php" />
-        <option value="$PROJECT_DIR$/projects/admin/controllers/DefaultController.php" />
-        <option value="$PROJECT_DIR$/projects/admin/models/Slugs.php" />
-        <option value="$PROJECT_DIR$/projects/admin/views/news_categorias/news_categorias/_index.php" />
-        <option value="$PROJECT_DIR$/projects/admin/models/NewsNewsCategoria.php" />
-        <option value="$PROJECT_DIR$/projects/admin/models/NewsCategorias.php" />
-        <option value="$PROJECT_DIR$/Winged/Frontend/Assets.php" />
         <option value="$PROJECT_DIR$/projects/admin/controllers/CarrinhoController.php" />
         <option value="$PROJECT_DIR$/projects/admin/controllers/PedidosController.php" />
         <option value="$PROJECT_DIR$/projects/admin/controllers/PedidosAgendadosController.php" />
@@ -366,6 +351,15 @@
         <option value="$PROJECT_DIR$/projects/admin/assets/js/pages/news.js" />
         <option value="$PROJECT_DIR$/projects/admin/models/News.php" />
         <option value="$PROJECT_DIR$/projects/admin/assets/css/core/core.css" />
+        <option value="$PROJECT_DIR$/Winged/App/WingedHead.php" />
+        <option value="$PROJECT_DIR$/Winged/Configs/Defines.php" />
+        <option value="$PROJECT_DIR$/Winged/Formater/Formater.php" />
+        <option value="$PROJECT_DIR$/Winged/App/Head.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Winged/App/App.php" />
+        <option value="$PROJECT_DIR$/app.php" />
+        <option value="$PROJECT_DIR$/Winged/Route/RouteExec.php" />
+        <option value="$PROJECT_DIR$/Winged/Route/Route.php" />
       </list>
     </option>
   </component>
@@ -395,6 +389,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -422,27 +417,39 @@
               <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
               <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
               <item name="Winged" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Configs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
+              <item name="Winged" type="462c0819:PsiDirectoryNode" />
+              <item name="Date" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
+              <item name="Winged" type="462c0819:PsiDirectoryNode" />
+              <item name="Utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="postgresql&#10;sqlite" />
     <property name="SearchEverywhereHistoryKey" value="route&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Route/Route.php&#10;rout&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Route/RouteExec.php&#10;winged&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/WingedHead.php&#10;ass&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Controller/Assets.php&#10;assets&#9;null&#9;null&#10;model&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Model/Model.php&#10;winge&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/WingedHead.php&#10;wingedcon&#9;null&#9;null&#10;database&#9;null&#9;null&#10;data&#9;ACTION&#9;ActivateDatabaseToolWindow&#10;control&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/controllers/HomeController.php&#10;form&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Form/Form.php&#10;mode&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Model/Model.php&#10;win&#9;null&#9;null&#10;clie&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/models/Clientes.php&#10;def&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/admin/controllers/DefaultController.php&#10;Active&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Form/ActiveForm.php&#10;core&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/admin/assets/css/core/core.css&#10;html&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Form/HtmlHelper.php&#10;usu&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/models/Usuarios.php&#10;C&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/admin/controllers/ClientesController.php&#10;core.c&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/admin/assets/css/core/core.css&#10;compo&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Components/ComponentParser.php&#10;Model&#9;null&#9;null&#10;Fun&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Utils/Functions.php&#10;re&#9;null&#9;null&#10;new&#9;null&#9;null&#10;do&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/External/pQuery/DomNode.php&#10;D&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/External/pQuery/DomNode.php&#10;iQue&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/External/pQuery/IQuery.php&#10;Dom&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/External/pQuery/DomNode.php&#10;php&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/External/phpQuery.php&#10;da&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Date/Date.php&#10;date&#9;null&#9;null&#10;fak&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/models/FakeGa.php&#10;news&#9;null&#9;null&#10;delega&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Database/DelegateQuery.php&#10;rew&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/Winged/Rewrite/Rewrite.php&#10;winged.c&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/winged.class.php&#10;winged.cl&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/winged.class.php&#10;vali&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/validator/winged.validator.php&#10;va&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/validator/winged.validator.php&#10;uplo&#9;null&#9;null&#10;upl&#9;null&#9;null&#10;down&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/file/winged.download.php&#10;Reque&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/winged/http/winged.request.php&#10;CoreD&#9;null&#9;null&#10;coreS&#9;null&#9;null&#10;cores&#9;null&#9;null&#10;home&#9;FILE&#9;file://C:/xampp/htdocs/MISCELANEA/wingedframework.com.br/views/home.php" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="com.jetbrains.php.lang.actions.generation.PhpGenerateFieldAccessorHandlerBase$MyMemberChooser.fluent.setters.last.selected" value="true" />
     <property name="com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary" value="PHPUnit" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../desenvolvimento/alvaz.com" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
@@ -465,19 +472,19 @@
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\Winged\App" />
+      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br" />
+      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\views\_includes" />
+      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\models" />
+      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\autoload" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\autoload" />
       <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\Winged\Assets" />
       <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\Winged\Config" />
       <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\BeginnerStructure\controllers" />
       <recent name="C:\xampp\htdocs\MISCELANEA\wingedframework.com.br\projects" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br" />
-      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\views\_includes" />
-      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\models" />
-      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\projects\admin\autoload" />
-      <recent name="E:\xampp\htdocs\mixed\wingedframework.com.br\admin\img" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -813,16 +820,19 @@
       <workItem from="1564420850374" duration="12241000" />
       <workItem from="1564434988414" duration="12000" />
       <workItem from="1564439787507" duration="25000" />
+      <workItem from="1565275327284" duration="10988000" />
+      <workItem from="1565293570666" duration="5093000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1497957000" />
+    <option name="totallyTimeSpent" value="1514038000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20788912" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21215352" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -844,7 +854,7 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.10554371" />
+      <window_info anchor="right" id="Remote Host" order="3" weight="0.14605543" />
       <window_info anchor="right" id="Database" order="4" weight="0.26012793" />
       <window_info anchor="right" x="99" y="143" width="1736" height="856" id="Documentation" order="5" type="FLOATING" />
     </layout>
@@ -898,76 +908,6 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Winged/Database/Drivers/MySQL.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="592" column="151" selection-start-line="592" selection-start-column="151" selection-end-line="592" selection-end-column="151" />
-          <caret line="599" column="151" selection-start-line="599" selection-start-column="151" selection-end-line="599" selection-end-column="151" />
-          <caret line="612" column="151" selection-start-line="612" selection-start-column="151" selection-end-line="612" selection-end-column="151" />
-          <caret line="620" column="151" selection-start-line="620" selection-start-column="151" selection-end-line="620" selection-end-column="151" />
-          <caret line="636" column="151" selection-start-line="636" selection-start-column="151" selection-end-line="636" selection-end-column="151" />
-          <caret line="645" column="151" selection-start-line="645" selection-start-column="151" selection-end-line="645" selection-end-column="151" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Winged/File/Upload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="822">
-          <caret line="193" column="66" lean-forward="true" selection-start-line="193" selection-start-column="66" selection-end-line="193" selection-end-column="66" />
-          <folding>
-            <element signature="e#2662#7935#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Winged/Database/Drivers/Eloquent.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="1388" column="17" lean-forward="true" selection-start-line="1388" selection-start-column="17" selection-end-line="1388" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Winged/Database/AbstractEloquent.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="687">
-          <caret line="457" column="35" lean-forward="true" selection-start-line="457" selection-start-column="35" selection-end-line="457" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Winged/Configs/Defines.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-288" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Winged/Configs/IniSets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projects/admin/views/_includes/midia.edit.form.html" />
-    <entry file="file://$PROJECT_DIR$/Winged/Form/Form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="139" column="20" selection-start-line="139" selection-start-column="20" selection-end-line="139" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projects/admin/assets/js/core/core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="274" column="9" lean-forward="true" selection-start-line="271" selection-start-column="8" selection-end-line="274" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projects/admin/models/Carrinho.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-663">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/projects/admin/assets/js/pages/carrinho.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -1217,8 +1157,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/admin/views/news/news/_form.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6528">
-          <caret line="384" column="82" selection-start-line="384" selection-start-column="82" selection-end-line="384" selection-end-column="82" />
+        <state relative-caret-position="6545">
+          <caret line="386" column="82" selection-start-line="386" selection-start-column="82" selection-end-line="386" selection-end-column="82" />
           <folding>
             <element signature="e#105#126#0#PHP" expanded="true" />
           </folding>
@@ -1234,7 +1174,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/admin/controllers/ServicesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2703">
+        <state relative-caret-position="2635">
           <caret line="159" column="35" selection-start-line="159" selection-start-column="35" selection-end-line="159" selection-end-column="35" />
           <folding>
             <element signature="e#7#40#0#PHP" expanded="true" />
@@ -1245,31 +1185,119 @@
     <entry file="file://$PROJECT_DIR$/projects/admin/controllers/NewsController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2193">
-          <caret line="133" selection-start-line="133" selection-end-line="133" />
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/admin/models/News.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5015">
-          <caret line="295" column="29" selection-start-line="295" selection-start-column="29" selection-end-line="295" selection-end-column="29" />
+        <state relative-caret-position="5117">
+          <caret line="303" column="29" selection-start-line="303" selection-start-column="29" selection-end-line="303" selection-end-column="29" />
           <folding>
             <element signature="e#7#30#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/projects/class/MobileDetect.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        <state relative-caret-position="170">
+          <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/projects/class/MobileDetect.php">
+    <entry file="file://$PROJECT_DIR$/Winged/Formater/Formater.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        <state relative-caret-position="153">
+          <caret line="169" column="44" selection-start-line="169" selection-start-column="44" selection-end-line="169" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Utils/WingedConfigDefaults.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding>
+            <element signature="e#26#43#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/App/Head.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding>
+            <element signature="e#30#45#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Configs/Defines.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Utils/WingedLib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="84" column="9" lean-forward="true" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/App/App.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#30#44#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Winged.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1123">
+          <caret line="466" column="8" selection-start-line="466" selection-start-column="8" selection-end-line="467" selection-end-column="13" />
+          <folding>
+            <element signature="e#26#51#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Route/Route.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="587">
+          <caret line="583" column="9" selection-start-line="583" selection-start-column="9" selection-end-line="583" selection-end-column="9" />
+          <folding>
+            <element signature="e#32#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Winged/Route/RouteExec.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="254" column="41" selection-start-line="254" selection-start-column="41" selection-end-line="254" selection-end-column="41" />
+          <folding>
+            <element signature="e#32#57#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

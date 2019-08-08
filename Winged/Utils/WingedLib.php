@@ -8,17 +8,25 @@ namespace Winged\Utils;
 class WingedLib
 {
 
+    /**
+     * clear document root
+     *
+     * @return mixed
+     */
     public static function clearDocumentRoot()
     {
         $exp = explode(':/', DOCUMENT_ROOT);
-        if(count7($exp) === 2){
+        if (count7($exp) === 2) {
             return $exp[1];
         }
         return $exp[0];
     }
 
     /**
+     * normalize path
+     *
      * @param string $path
+     *
      * @return string
      */
     public static function normalizePath($path = '')
@@ -45,7 +53,10 @@ class WingedLib
     }
 
     /**
+     * explode path using one / (right bar)
+     *
      * @param string $path
+     *
      * @return array|bool
      */
     public static function explodePath($path = '')
@@ -57,6 +68,13 @@ class WingedLib
         return $path;
     }
 
+    /**
+     * clear path
+     *
+     * @param $path
+     *
+     * @return bool|string
+     */
     public static function clearPath($path)
     {
         $path = self::normalizePath($path);
@@ -68,8 +86,45 @@ class WingedLib
         return false;
     }
 
+    /**
+     * convert left slashs to right slashs
+     *
+     * @param $str
+     *
+     * @return string
+     */
     public static function convertslash($str)
     {
         return trim(str_replace("\\", "/", $str));
     }
+
+    /**
+     * alias for $_SERVER, ignore case sentive and if key not exists in $_SERVER returns false
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    public static function server($key)
+    {
+        $ukey = strtoupper($key);
+        $server = $_SERVER;
+        if (array_key_exists($ukey, $server)) {
+            return $server[$ukey];
+        }
+        return false;
+    }
+
+    /**
+     * normalize an URL
+     *
+     * @param string $url
+     *
+     * @return mixed
+     */
+    public static function normalizeUrl($url = '')
+    {
+        return str_replace(['http://', 'https://', '//', 'http:~~', 'https:~~', '??'], ['http:~~', 'https:~~', '/', 'http://', 'https://', '?'], $url);
+    }
+
 }

@@ -261,15 +261,15 @@ class ComponentParser
             if (is_array($selectors)) {
                 foreach ($selectors as $selector => $function) {
                     if (is_array($function)) {
-                        $keys = array_keys($function);
-                        $method = array_shift($keys);
-                        if ($method === 0) {
-                            if (method_exists($html, $function[$method])) {
-                                $this->DOM->query($selector)->{$function[$method]}();
-                            }
-                        } else {
-                            if (method_exists($html, $method)) {
-                                $this->DOM->query($selector)->{$method}($function[$method]);
+                        foreach ($function as $method => $content) {
+                            if (is_int($method) === 0) {
+                                if (method_exists($html, $content)) {
+                                    $this->DOM->query($selector)->{$content}();
+                                }
+                            } else {
+                                if (method_exists($html, $method)) {
+                                    $this->DOM->query($selector)->{$method}($content);
+                                }
                             }
                         }
                         $this->addOptions($this->DOM->query($selector), $function);

@@ -145,6 +145,13 @@ class HttpResponseHandler
             'gzip' => false,
             'charset' => false,
         ],
+        'mov' => [
+            'mimetype' => 'video/mp4',
+            'access' => 'public',
+            'age' => 31536000,
+            'gzip' => false,
+            'charset' => false,
+        ],
         'avi' => [
             'mimetype' => 'video/x-msvideo',
             'access' => 'public',
@@ -329,6 +336,7 @@ class HttpResponseHandler
         'ac' => 'application/pkix-attr-cert',
         'aif' => 'audio/x-aiff',
         'avi' => 'video/x-msvideo',
+        'mov' => 'video/mp4',
         'aep' => 'application/vnd.audiograph',
         'dxf' => 'image/vnd.dxf',
         'dwf' => 'model/vnd.dwf',
