@@ -90,21 +90,34 @@ class RouteExec extends Route
         }
         $valid = null;
         foreach (self::$routes as $register => &$route) {
+            $rules = $route->getRules();
             if ($route->getUri() === '/') {
                 $registredUri = [];
             } else {
                 $registredUri = explode('/', $route->getUri());
             }
-            if(count($registredUri) >= count($uri)){
-                foreach ($route->getParsedUri() as $parsed){
-                    if($route->getFailedIn()){
+            if (count($registredUri) >= count($uri)) {
+                foreach ($route->getParsedUri() as $parsed) {
+                    if ($route->getFailedIn()) {
                         continue;
                     }
-                    if($parsed['type'] === 'name'){
+                    if ($parsed['type'] === 'name') {
                         $route->addPriority();
                     }
-                    if($parsed['type'] === 'arg'){
-
+                    if ($parsed['type'] === 'arg') {
+                        if (array_key_exists($parsed['name'], $rules)) {
+                            if (is_callable($rules[$parsed['name']])) {
+                                if (!call_user_func_array($rules[$parsed['name']], [$parsed['value']])) {
+                                    $route->setFailedIn(502);
+                                    $route->setStatus('Argument ' . $parsed['name'] . ' not pass on seted rule');
+                                }
+                            } else {
+                                if (preg_match('/' . $rules[$parsed['name']] . '/', $parsed['value'], $matches)) {
+                                    $route->setFailedIn(502);
+                                    $route->setStatus('Argument ' . $parsed['name'] . ' not pass on seted rule');
+                                }
+                            }
+                        }
                     }
                 }
             }

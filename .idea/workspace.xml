@@ -174,8 +174,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Winged/Route/RouteExec.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="254" column="41" selection-start-line="254" selection-start-column="41" selection-end-line="254" selection-end-column="41" />
+            <state relative-caret-position="519">
+              <caret line="117" column="33" lean-forward="true" selection-start-line="117" selection-start-column="33" selection-end-line="117" selection-end-column="33" />
               <folding>
                 <element signature="e#32#57#0#PHP" expanded="true" />
               </folding>
@@ -186,8 +186,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Winged/Route/Route.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="583" column="9" selection-start-line="583" selection-start-column="9" selection-end-line="583" selection-end-column="9" />
+            <state relative-caret-position="621">
+              <caret line="741" column="158" lean-forward="true" selection-start-line="740" selection-start-column="12" selection-end-line="741" selection-end-column="158" />
               <folding>
                 <element signature="e#32#53#0#PHP" expanded="true" />
               </folding>
@@ -199,7 +199,7 @@
         <entry file="file://$PROJECT_DIR$/Winged/Utils/WingedLib.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="421">
-              <caret line="84" column="9" lean-forward="true" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
+              <caret line="84" column="9" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -225,7 +225,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>load(</find>
       <find>asdasd</find>
       <find>save()</find>
       <find>l</find>
@@ -255,6 +254,7 @@
       <find>pre_clea</find>
       <find>pre_c</find>
       <find>rule</find>
+      <find>pre</find>
     </findStrings>
     <replaceStrings>
       <replace>Eloquent</replace>
@@ -358,8 +358,8 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/Winged/App/App.php" />
         <option value="$PROJECT_DIR$/app.php" />
-        <option value="$PROJECT_DIR$/Winged/Route/RouteExec.php" />
         <option value="$PROJECT_DIR$/Winged/Route/Route.php" />
+        <option value="$PROJECT_DIR$/Winged/Route/RouteExec.php" />
       </list>
     </option>
   </component>
@@ -396,17 +396,6 @@
             <path>
               <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
               <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-              <item name="class" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
@@ -821,12 +810,12 @@
       <workItem from="1564434988414" duration="12000" />
       <workItem from="1564439787507" duration="25000" />
       <workItem from="1565275327284" duration="10988000" />
-      <workItem from="1565293570666" duration="5093000" />
+      <workItem from="1565293570666" duration="6082000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1514038000" />
+    <option name="totallyTimeSpent" value="1515027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1257,7 +1246,7 @@
     <entry file="file://$PROJECT_DIR$/Winged/Utils/WingedLib.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
-          <caret line="84" column="9" lean-forward="true" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
+          <caret line="84" column="9" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1283,8 +1272,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Winged/Route/Route.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="583" column="9" selection-start-line="583" selection-start-column="9" selection-end-line="583" selection-end-column="9" />
+        <state relative-caret-position="621">
+          <caret line="741" column="158" lean-forward="true" selection-start-line="740" selection-start-column="12" selection-end-line="741" selection-end-column="158" />
           <folding>
             <element signature="e#32#53#0#PHP" expanded="true" />
           </folding>
@@ -1293,8 +1282,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Winged/Route/RouteExec.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="254" column="41" selection-start-line="254" selection-start-column="41" selection-end-line="254" selection-end-column="41" />
+        <state relative-caret-position="519">
+          <caret line="117" column="33" lean-forward="true" selection-start-line="117" selection-start-column="33" selection-end-line="117" selection-end-column="33" />
           <folding>
             <element signature="e#32#57#0#PHP" expanded="true" />
           </folding>
