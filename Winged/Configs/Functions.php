@@ -453,6 +453,24 @@ function is_update()
 }
 
 /**
+ * return true if $_SERVER["REQUEST_METHOD"] is patch
+ * @return bool
+ */
+function is_patch()
+{
+    return method('patch');
+}
+
+/**
+ * return true if $_SERVER["REQUEST_METHOD"] is options
+ * @return bool
+ */
+function is_options()
+{
+    return method('options');
+}
+
+/**
  * return true if $_SERVER["REQUEST_METHOD"] is uri
  * @return bool
  */

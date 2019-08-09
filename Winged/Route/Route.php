@@ -4,6 +4,7 @@ namespace Winged\Route;
 
 use Winged\Date\Date;
 use Winged\Http\Session;
+use Winged\Utils\DeepClone;
 use Winged\Utils\RandomName;
 use Winged\Utils\WingedLib;
 use Winged\App\App;
@@ -53,7 +54,7 @@ class Route
 
     protected $valid;
 
-    protected $rules;
+    protected $rules = [];
 
     protected $origins;
 
@@ -62,6 +63,8 @@ class Route
     protected $errors;
 
     protected $priority = -1;
+
+    protected $argPriority = -1;
 
     /**
      * Route constructor.
@@ -253,6 +256,14 @@ class Route
     }
 
     /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
      * @param bool $status
      *
      * @return Route
@@ -396,11 +407,47 @@ class Route
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getArgPriority()
+    {
+        return $this->argPriority;
+    }
+
+    /**
+     * @param int $argPriority
+     *
+     * @return Route
+     */
+    public function setArgPriority($argPriority)
+    {
+        $this->argPriority = $argPriority;
+        return $this;
+    }
+
     public function addPriority()
     {
         $this->priority++;
     }
 
+    public function addArgPriority()
+    {
+        $this->argPriority++;
+    }
+
+    /**
+     * check if an error occured in route
+     *
+     * @return bool
+     */
+    protected function checkErrors()
+    {
+        if ($this->failedIn || !empty($this->errors)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param string $search
@@ -411,11 +458,10 @@ class Route
     public static function duplicate($search = '', $new_name = '')
     {
         if (array_key_exists($search, Route::$routes) && $new_name != $search && !array_key_exists($new_name, Route::$routes)) {
-            Route::$routes[$new_name] = new Route($new_name);
+            Route::$routes[$new_name] = &DeepClone::factory(Route::$routes[$search])->copy();
             return Route::$routes[$new_name];
         }
-        //silence errors case duplicate fails
-        return new Route(RandomName::generate('sisisisi'));
+        return false;
     }
 
     /**
@@ -423,7 +469,7 @@ class Route
      */
     public function changeToGet()
     {
-        Route::$part[$this->name]->http = 'get';
+        $this->method = 'get';
         return $this;
     }
 
@@ -432,7 +478,7 @@ class Route
      */
     public function changeToPost()
     {
-        Route::$part[$this->name]->http = 'post';
+        $this->method = 'post';
         return $this;
     }
 
@@ -441,7 +487,7 @@ class Route
      */
     public function changeToPut()
     {
-        Route::$part[$this->name]->http = 'put';
+        $this->method = 'put';
         return $this;
     }
 
@@ -450,7 +496,34 @@ class Route
      */
     public function changeToDelete()
     {
-        Route::$part[$this->name]->http = 'delete';
+        $this->method = 'delete';
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function changeToPatch()
+    {
+        $this->method = 'patch';
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function changeToOptions()
+    {
+        $this->method = 'options';
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function changeToRaw()
+    {
+        $this->method = 'raw';
         return $this;
     }
 
@@ -462,7 +535,7 @@ class Route
     public function origins($origins = [])
     {
         if (is_array($origins)) {
-            Route::$part[$this->name]->origins = $origins;
+            $this->setOrigins($origins);
         }
         return $this;
     }
@@ -472,11 +545,11 @@ class Route
      */
     public function name($name)
     {
-        Route::$routes[$name] = Route::$routes[$this->name];
-        Route::$part[$name] = Route::$part[$this->name];
-        unset(Route::$routes[$this->name]);
-        unset(Route::$part[$this->name]);
-        $this->name = $name;
+        if (is_string($name)) {
+            Route::$routes[$name] = Route::$routes[$this->name];
+            unset(Route::$routes[$this->name]);
+            $this->name = $name;
+        }
     }
 
     /**
@@ -504,7 +577,7 @@ class Route
                 $current = call_user_func_array($user, [server('php_auth_user'), server('php_auth_pw')]);
                 if ($current) {
                     if (is_array($current)) {
-                        Route::$part[$this->name]->vars = array_merge(Route::$part[$this->name]->vars, $current);
+                        $this->setVars(array_merge($this->getVars(), $current));
                     }
                     $current = false;
                 } else {
@@ -517,8 +590,8 @@ class Route
             $current = true;
         }
         if ($current) {
-            Route::$part[$this->name]->_401 = true;
-            Route::$part[$this->name]->errors['unauthorized'] = 'This request was not authorized by the server. Credentials available in the header are incorrect or not found.';
+            $this->setFailedIn(401);
+            $this->setStatus('This request was not authorized by the server. Credentials available in the header are incorrect or not found.');
         }
         return $this;
     }
@@ -551,8 +624,8 @@ class Route
             $current = true;
         }
         if ($current) {
-            Route::$part[$this->name]->_401 = true;
-            Route::$part[$this->name]->errors['unauthorized'] = 'Token invalid or expired, generate a new token to continue with the requisitions.';
+            $this->setFailedIn(401);
+            $this->setStatus('Token invalid or expired, generate a new token to continue with the requisitions.');
         }
         return $this;
     }
@@ -577,9 +650,10 @@ class Route
                 }
             }
             if ($ok) {
-                $this->rules[] = [
-                    $property => $rule
-                ];
+                if (!array_key_exists($property, $this->rules)) {
+                    $this->rules[$property] = [];
+                }
+                $this->rules[$property][] = $rule;
             }
         }
         return $this;
@@ -705,6 +779,10 @@ class Route
     {
         $name = RandomName::generate('sisisi', false, false);
         $route = new Route($name);
+        $route->setHttp('raw');
+        if (in_array($method, ['get', 'post', 'delete', 'put', 'patch', 'options', 'raw'])) {
+            $route->setHttp($method);
+        }
         $uri = WingedLib::clearPath($uri);
         if (!$uri) {
             $uri = '/';
@@ -781,7 +859,7 @@ class Route
         }
         $route->setParsedUri($parsed);
         $route->setUriCount($uri_count);
-        Route::$routes[$name] = $route;
+        Route::$routes[$name] = &$route;
         return $route;
     }
 }
