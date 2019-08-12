@@ -30,6 +30,11 @@ class Route
     protected static $notFound;
 
     /**
+     * @var $routes Route[]
+     */
+    protected static $groups = [];
+
+    /**
      * @var $name string
      */
     protected $name = '';
@@ -871,6 +876,10 @@ class Route
         }
     }
 
+    public static function group($basePath, $routes = [])
+    {
+
+    }
 
     /**
      * @param $method
