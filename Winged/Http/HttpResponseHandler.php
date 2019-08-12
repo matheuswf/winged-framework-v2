@@ -1116,7 +1116,7 @@ class HttpResponseHandler
                     } else {
                         header("Content-Type: " . $this->ages[$file->getExtension()]['mimetype']);
                     }
-                    if(WingedConfig::$config->ADD_CACHE_CONTROL){
+                    if (WingedConfig::$config->ADD_CACHE_CONTROL) {
                         header("Date: " . Date::now()->custom('%a, %d %b %Y %H:%M:%S GMT'));
                         header("Last-Modified: " . (new Date($file->modifyTime()))->custom('%a, %d %b %Y %H:%M:%S GMT'));
                         header("ETag: " . '"' . $file->modifyTime() . '-' . md5($file->read()) . '"');

@@ -2,6 +2,8 @@
 
 namespace Winged\Route;
 
+use Winged\App\Request;
+use Winged\App\Response;
 use Winged\Date\Date;
 use Winged\Http\Session;
 use Winged\Utils\DeepClone;
@@ -23,9 +25,9 @@ class Route
     protected static $routes = [];
 
     /**
-     * @var $response array
+     * @var $routes Route | callable | null
      */
-    protected static $response = [];
+    protected static $notFound;
 
     /**
      * @var $name string
@@ -34,6 +36,9 @@ class Route
 
     protected $http;
 
+    /**
+     * @var \Closure | Route
+     */
     protected $callable;
 
     protected $class;
@@ -52,19 +57,37 @@ class Route
 
     protected $failedIn = false;
 
+    protected $statusCode = 200;
+
     protected $valid;
 
     protected $rules = [];
 
-    protected $origins;
+    protected $origins = [];
 
-    protected $createSessionOptions;
+    protected $createSessionOptions = [];
 
-    protected $errors;
+    protected $errors = [];
 
+    /**
+     * @var int
+     */
     protected $priority = -1;
 
+    /**
+     * @var int
+     */
     protected $argPriority = -1;
+
+    /**
+     * @var null | Request
+     */
+    protected $request = null;
+
+    /**
+     * @var null | Response
+     */
+    protected $response = null;
 
     /**
      * Route constructor.
@@ -74,6 +97,8 @@ class Route
     public function __construct($name)
     {
         $this->name = $name;
+        $this->request = App::getRequest();
+        $this->response = App::getResponse();
     }
 
     /**
@@ -129,7 +154,9 @@ class Route
      */
     public function setCallable($callable)
     {
-        $this->callable = $callable;
+        if (is_callable($callable)) {
+            $this->callable = \Closure::bind($callable, $this, 'Winged\Route\Route');
+        }
         return $this;
     }
 
@@ -264,7 +291,7 @@ class Route
     }
 
     /**
-     * @param bool $status
+     * @param bool | string $status
      *
      * @return Route
      */
@@ -435,6 +462,62 @@ class Route
     {
         $this->argPriority++;
     }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * @param int $statusCode
+     *
+     * @return Route
+     */
+    public function setStatusCode($statusCode)
+    {
+        $this->statusCode = $statusCode;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function forceJson()
+    {
+        $this->request()->accept = ['application/json' => 'application/json'];
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function forceHtml()
+    {
+        $this->request()->accept = ['text/html' => 'application/json'];
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function forceXml()
+    {
+        $this->request()->accept = ['application/json' => 'application/json'];
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function forceYaml()
+    {
+        $this->request()->accept = ['application/json' => 'application/json'];
+        return $this;
+    }
+
 
     /**
      * check if an error occured in route
@@ -660,6 +743,22 @@ class Route
     }
 
     /**
+     * @return Response|null
+     */
+    public function response()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @return Request|null
+     */
+    public function request()
+    {
+        return $this->request;
+    }
+
+    /**
      * @param $uri
      * @param $callback
      *
@@ -737,6 +836,20 @@ class Route
     }
 
     /**
+     * @param $callback
+     */
+    public static function notFound($callback)
+    {
+        if (is_callable($callback)) {
+            self::$notFound = new Route('__default_not_found_route__');
+            self::$notFound->setStatusCode(404);
+            self::$notFound->setFailedIn(404);
+            self::$notFound->setStatus('404 Not found');
+            self::$notFound->setCallable($callback);
+        }
+    }
+
+    /**
      * @param $array
      * @param $xml
      */
@@ -758,15 +871,6 @@ class Route
         }
     }
 
-    /**
-     * set response
-     *
-     * @param $response
-     */
-    protected static function registerErrorResponse($response)
-    {
-        self::$response = $response;
-    }
 
     /**
      * @param $method

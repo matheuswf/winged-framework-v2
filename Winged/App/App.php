@@ -34,6 +34,9 @@ class App
     const viewsFolder = './views/';
     const controllerFolder = './controllers/';
 
+    public static $response;
+    public static $request;
+
     public static $uri;
     public static $pureUri;
     public static $http;
@@ -56,6 +59,8 @@ class App
 
     public function __construct()
     {
+        static::$request = new Request();
+        static::$response = new Response(static::$request);
         $app = new File('./app.php', false);
         if (!$app->exists()) {
             $app = new File('./app.php', false);
@@ -231,7 +236,18 @@ class App
         return $this;
     }
 
-    public static function _exit(){
+    public static function getRequest()
+    {
+        return self::$request;
+    }
+
+    public static function getResponse()
+    {
+        return self::$response;
+    }
+
+    public static function _exit()
+    {
         Connections::closeAll();
         exit;
     }

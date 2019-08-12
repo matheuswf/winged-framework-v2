@@ -2,16 +2,11 @@
 
 namespace Winged\Route;
 
-use Winged\Buffer\Buffer;
 use Winged\Date\Date;
-use Winged\Error\Error;
-use Winged\File\File;
-use Winged\Http\HttpResponseHandler;
 use Winged\Http\Session;
 use Winged\Utils\RandomName;
 use Winged\Utils\WingedLib;
 use Winged\App\App;
-use WingedConfig;
 
 /**
  * Class Route
@@ -20,67 +15,7 @@ use WingedConfig;
  */
 class RouteExec extends Route
 {
-
     public static $args = [];
-
-    /**
-     * @return bool
-     */
-    public static function sendErrorResponse()
-    {
-        if (!empty(self::$response) && !empty(self::$routes)) {
-            Error::clear();
-            Buffer::kill();
-            header_remove();
-            switch (self::$response['response']) {
-                case 502:
-                    header('HTTP/1.0 ' . self::$response['response'] . ' Bad Gateway');
-                    break;
-                case 401:
-                    header('HTTP/1.0 ' . self::$response['response'] . ' Unauthorized');
-                    break;
-                case 404:
-                    header('HTTP/1.0 ' . self::$response['response'] . ' Not Found');
-                    $file = new File(WingedConfig::$config->NOT_FOUND_FILE_PATH, false);
-                    if ($file->exists()) {
-                        Buffer::reset();
-                        include_once WingedConfig::$config->NOT_FOUND_FILE_PATH;
-                        Buffer::flushKill();
-                        App::_exit();
-                    }
-                    break;
-                case 200:
-                    header('HTTP/1.0 ' . self::$response['response'] . ' OK');
-                    break;
-            }
-
-            $responseHandler = new HttpResponseHandler();
-            $headers = getallheaders();
-            $accept = isset($headers['Accept']) ? $headers['Accept'] : 'application/json';
-            switch ($accept) {
-                case 'text/yaml':
-                    $responseHandler->dispatchYaml(self::$response['content']);
-                    break;
-                case 'text/plain':
-                    $responseHandler->dispatchTxt(self::$response['content']);
-                    break;
-                case 'text/xml':
-                    $responseHandler->dispatchXml(self::$response['content']);
-                    break;
-                case 'application/json':
-                    $responseHandler->dispatchJson(self::$response['content']);
-                    break;
-                case '*/*':
-                    $responseHandler->dispatchJson(self::$response['content']);
-                    break;
-                default:
-                    $responseHandler->dispatchJson(self::$response['content']);
-                    break;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * get the founded route
@@ -144,28 +79,35 @@ class RouteExec extends Route
                 foreach ($route->getParsedUri() as $parsed) {
 
                     if ($route->getHttp() !== 'raw') {
+
                         if (is_post() && $route->getHttp() != 'post') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
 
                         if (is_put() && $route->getHttp() != 'put') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
 
                         if (is_get() && $route->getHttp() != 'get') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
 
                         if (is_patch() && $route->getHttp() != 'patch') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
 
                         if (is_options() && $route->getHttp() != 'options') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
 
                         if (is_delete() && $route->getHttp() != 'delete') {
-                            $route->setFailedIn('The route can\'t respond with found method in your http protocol.');
+                            $route->setFailedIn(405);
+                            $route->setStatus('The route can\'t respond with found method in your http protocol.');
                         }
                     }
 
@@ -202,6 +144,9 @@ class RouteExec extends Route
                 }
                 $route->setErrors($errors);
             }
+            if ($route->getFailedIn()) {
+                $route->setStatusCode($route->getFailedIn());
+            }
         }
     }
 
@@ -211,43 +156,20 @@ class RouteExec extends Route
      */
     public static function execute()
     {
-        $headers = \getallheaders();
-        $accept = isset($headers['Accept']) ? $headers['Accept'] : 'application/json';
-        switch ($accept) {
-            case 'text/yaml':
-                $accept = 'yaml';
-                break;
-            case 'text/plain':
-                $accept = 'text';
-                break;
-            case 'text/xml':
-                $accept = 'xml';
-                break;
-            case 'application/json':
-                $accept = 'json';
-                break;
-            case '*/*':
-                $accept = 'json';
-                break;
-            default:
-                $accept = 'json';
-                break;
-        }
-
         self::findValidRoute();
         $route = self::getValidRoute();
         if ($route) {
             if ($route->checkErrors()) {
-                self::registerErrorResponse([
+                $route->response()->setStatusCode((int)$route->getStatusCode());
+                $route->response()->dispatch([
                     'response' => $route->getFailedIn(),
                     'message' => $route->getStatus(),
                     'content' => [
                         'data' => $route->getErrors()
                     ]
-                ]);
+                ], true);
             } else {
-                header_remove();
-                header('HTTP/1.0 200 Ok');
+                $route->response()->setStatusCode((int)$route->getStatusCode());
                 $return = null;
                 if ($route->getCallable()) {
                     $return = call_user_func_array($route->getCallable(), array_merge(self::$args, [$route->getVars()]));
@@ -269,51 +191,25 @@ class RouteExec extends Route
                             'expires' => $expires
                         ]
                     ];
-
-                    $responseHandler = new HttpResponseHandler();
-                    switch ($accept) {
-                        case 'json':
-                            $responseHandler->dispatchJson($response);
-                            break;
-                        case 'xml':
-                            $responseHandler->dispatchXml($response);
-                            break;
-                        case 'text':
-                            $responseHandler->dispatchTxt($response);
-                            break;
-                        case 'yaml':
-                            $responseHandler->dispatchYaml($response);
-                            break;
-                        default:
-                            $responseHandler->dispatchJson($response);
-                            break;
-                    }
+                    $route->response()->dispatch($response);
                 }
-
-                if (is_array($return)) {
-                    $responseHandler = new HttpResponseHandler();
-                    switch ($accept) {
-                        case 'json':
-                            $responseHandler->dispatchJson($return, false);
-                            break;
-                        case 'xml':
-                            $responseHandler->dispatchXml($return, false);
-                            break;
-                        case 'text':
-                            $responseHandler->dispatchTxt($return, false);
-                            break;
-                        case 'yaml':
-                            $responseHandler->dispatchYaml($return, false);
-                            break;
-                        default:
-                            $responseHandler->dispatchJson($return, false);
-                            break;
-                    }
+                if ($return) {
+                    $route->response()->dispatch($return);
+                } else {
+                    $route->response()->setStatusCode(204);
+                    $route->response()->dispatch();
                 }
             }
-
         } else {
-            //not found
+            if (self::$notFound) {
+                $return = call_user_func_array(self::$notFound->getCallable(), array_merge(self::$args, [self::$notFound->getVars()]));
+                if ($return) {
+                    self::$notFound->response()->dispatch($return);
+                } else {
+                    self::$notFound->response()->setStatusCode(204);
+                    self::$notFound->response()->dispatch();
+                }
+            }
         }
         return true;
     }
