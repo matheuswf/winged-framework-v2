@@ -4,7 +4,7 @@ namespace Winged\Form;
 
 use function Winged\Formater\mb_ucfirst;
 use Winged\Model\Model;
-use Winged\Winged;
+use Winged\App\App;
 use Winged\Components\ComponentParser;
 use Winged\Components\Components;
 
@@ -119,7 +119,7 @@ class Form
     {
         $this->printable = $printable;
         if (!$action) {
-            $action = Winged::$page_surname;
+            $action = App::$page_surname;
         }
         return $this->components->get('Form')->parser($action, $method, $options, $enctype, $printable);
     }

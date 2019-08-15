@@ -2,10 +2,9 @@
 
 namespace Winged\Directory;
 
-use Winged\Formater\Formater;
 use Winged\File\File;
+use Winged\Formater\Formater;
 use Winged\Utils\WingedLib;
-use Winged\Winged;
 
 class Directory
 {
@@ -13,19 +12,10 @@ class Directory
 
     public function __construct($folder, $forceCreate = true)
     {
-        if (is_string($folder)) {
-            if (endstr($folder) != '/') {
-                $folder .= '/';
-            }
-            if (!is_int(stripos($folder, './'))) {
-                $folder = './' . $folder;
-            } else {
-                if (intval(stripos($folder, './')) !== 0) {
-                    $folder = './' . $folder;
-                }
-            }
-            $folder = str_replace(['//', './.'], ['/', './'], $folder);
+        if (is_bool(stripos(DOCUMENT_ROOT, $folder))) {
+            $folder = DOCUMENT_ROOT . $folder;
         }
+        $folder = str_replace(DOCUMENT_ROOT . DOCUMENT_ROOT, DOCUMENT_ROOT, $folder);
 
         $folder_accent = $folder;
 
@@ -40,25 +30,28 @@ class Directory
 
         if ($folder_accent != $folder) {
             if (is_dir(utf8_decode($folder_accent)) && file_exists(utf8_decode($folder_accent))) {
-                $this->folder = $folder_accent;
+                $this->folder = WingedLib::clearPath($folder_accent) . '/';
             }
         } else {
             if (is_dir($folder) && file_exists($folder)) {
-                $this->folder = $folder;
+                $this->folder = WingedLib::clearPath($folder) . '/';
             } else {
-                if ($forceCreate) {
+                if ($forceCreate && !$this->exists()) {
                     self::dynamicCreate($folder);
                 }
             }
             if (is_dir($folder) && file_exists($folder)) {
-                $this->folder = $folder;
+                $this->folder = WingedLib::clearPath($folder) . '/';
             }
         }
     }
 
+    /**
+     * @param $folder
+     */
     public static function dynamicCreate($folder)
     {
-        $exp = explode('/', $folder);
+        $exp = explode('/', str_replace(DOCUMENT_ROOT, '', $folder));
         $folders = [];
         $first = true;
         $count = 0;
@@ -116,16 +109,17 @@ class Directory
         }
     }
 
-    public function readDir(){
+    public function readDir()
+    {
         $files = [];
-        if($this->exists()){
+        if ($this->exists()) {
             $scan = scandir($this->folder);
-            if($scan && is_array($scan)){
+            if ($scan && is_array($scan)) {
                 array_shift($scan);
                 array_shift($scan);
-                foreach ($scan as $file){
+                foreach ($scan as $file) {
                     $file = new File($this->folder . $file, false);
-                    if($file->exists()){
+                    if ($file->exists()) {
                         $files[] = $file;
                     }
                 }
@@ -160,9 +154,7 @@ class Directory
 
     public function exists()
     {
-        if ($this->folder != null) {
-            return true;
-        }
+        if (is_dir($this->folder)) return $this;
         return false;
     }
 }

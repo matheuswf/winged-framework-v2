@@ -1,8 +1,11 @@
 <?php global $__autoload__cache; $__autoload__cache = [
     "./Winged/App/App.php",
     "./Winged/App/Head.php",
+    "./Winged/App/Middleware.php",
     "./Winged/App/Request.php",
+    "./Winged/App/RequestMiddleware.php",
     "./Winged/App/Response.php",
+    "./Winged/App/ResponseMiddleware.php",
     "./Winged/Autoload.Cache.php",
     "./Winged/Buffer/Buffer.php",
     "./Winged/Components/ComponentParser.php",
@@ -146,7 +149,5 @@
     "./Winged/Utils/WingedLib.php",
     "./Winged/Validator/Email/Email.php",
     "./Winged/Validator/Email/Exception/EmailException.php",
-    "./Winged/Validator/Validator.php",
-    "./Winged/Winged.php",
-    "./Winged/WingedHead.php"
+    "./Winged/Validator/Validator.php"
 ];

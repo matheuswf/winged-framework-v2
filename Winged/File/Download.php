@@ -5,7 +5,7 @@ namespace Winged\Download;
 use Winged\Database\Connections;
 use Winged\Error\Error;
 use Winged\Buffer\Buffer;
-use Winged\Winged;
+use Winged\App\App;
 
 class Download {
 
@@ -18,7 +18,7 @@ class Download {
             header("Content-Length: " . filesize($path));
             header("Content-Disposition: attachment; filename=" . basename(end($fn)));
             readfile($path);
-            Winged::_exit();
+            App::_exit();
         } else {
             trigger_error("File not found in: '" . $path . "'",E_USER_ERROR);
         }

@@ -1,1 +1,1 @@
-<base href="<?= \Winged\Winged::$protocol  ?>">
+<base href="<?= \Winged\App\App::$protocol  ?>">

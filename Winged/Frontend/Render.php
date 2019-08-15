@@ -6,7 +6,7 @@ use Winged\File\File;
 use Winged\Buffer\Buffer;
 use Winged\Utils\RandomName;
 use Winged\Utils\WingedLib;
-use Winged\Winged;
+use Winged\App\App;
 use \WingedConfig;
 
 /**
@@ -190,9 +190,9 @@ class Render extends Assets
             is_int(stripos($only_match, 'http://www')) ||
             is_int(stripos($only_match, 'https://www')) ||
             filter_var($only_match, FILTER_VALIDATE_URL)) {
-            if (!is_int(stripos($only_match, Winged::$protocol)) &&
-                !is_int(stripos($only_match, Winged::$http)) &&
-                !is_int(stripos($only_match, Winged::$https))) {
+            if (!is_int(stripos($only_match, App::$protocol)) &&
+                !is_int(stripos($only_match, App::$http)) &&
+                !is_int(stripos($only_match, App::$https))) {
                 return $full_string;
             }
         }
@@ -200,9 +200,9 @@ class Render extends Assets
         if (is_string($this->baseUrl)) {
             $base = str_replace(
                 [
-                    Winged::$protocol,
-                    Winged::$http,
-                    Winged::$https,
+                    App::$protocol,
+                    App::$http,
+                    App::$https,
                 ],
                 '',
                 $this->baseUrl
@@ -213,9 +213,9 @@ class Render extends Assets
             $copy_match = WingedLib::clearPath($only_match);
             $copy_match = str_replace(
                 [
-                    Winged::$protocol,
-                    Winged::$http,
-                    Winged::$https,
+                    App::$protocol,
+                    App::$http,
+                    App::$https,
                 ],
                 '',
                 $copy_match
@@ -245,14 +245,14 @@ class Render extends Assets
                         (!is_int(stripos($copy_match, 'https://')) &&
                             !is_int(stripos($copy_match, 'http://')) &&
                             !is_int(stripos($copy_match, '//'))) ||
-                        (is_int(stripos($copy_match, Winged::$http)) ||
-                            is_int(stripos($copy_match, Winged::$https))
+                        (is_int(stripos($copy_match, App::$http)) ||
+                            is_int(stripos($copy_match, App::$https))
                         )
                     ) {
                         if ($cantUseBase) {
-                            $copy_match = Winged::$protocol . '__winged_file_handle_core__/' . base64_encode($copy_match);
+                            $copy_match = App::$protocol . '__winged_file_handle_core__/' . base64_encode($copy_match);
                         } else {
-                            $copy_match = Winged::$protocol . '__winged_file_handle_core__/' . base64_encode(WingedLib::normalizePath($base) . $copy_match);
+                            $copy_match = App::$protocol . '__winged_file_handle_core__/' . base64_encode(WingedLib::normalizePath($base) . $copy_match);
                         }
                         $full_string = str_replace($only_match, $copy_match, $full_string);
                         $only_match = $copy_match;
@@ -312,7 +312,7 @@ class Render extends Assets
             foreach ($this->css as $identifier => $file) {
                 if ($file['type'] === 'file') {
                     ?>
-                    <link href="<?= Winged::$protocol . $file['string'] ?>" type="text/css" rel="stylesheet"/>
+                    <link href="<?= App::$protocol . $file['string'] ?>" type="text/css" rel="stylesheet"/>
                     <?php
                 } else if ($file['type'] === 'script') {
                     ?>
@@ -342,7 +342,7 @@ class Render extends Assets
         foreach ($this->js as $identifier => $file) {
             if ($file['type'] === 'file') {
                 ?>
-                <script src="<?= Winged::$protocol . $file['string'] ?>" type="text/javascript"></script>
+                <script src="<?= App::$protocol . $file['string'] ?>" type="text/javascript"></script>
             <?php
             } else if ($file['type'] === 'script') {
                 ?>

@@ -31,8 +31,11 @@ class File
      */
     public function __construct($file, $forceCreate = true)
     {
+        if (is_bool(stripos($file, DOCUMENT_ROOT))) {
+            $file = DOCUMENT_ROOT . $file;
+        }
+        $file = str_replace(DOCUMENT_ROOT . DOCUMENT_ROOT, DOCUMENT_ROOT, $file);
         $this->mime_types = HttpResponseHandler::$mime_types;
-
         $content = false;
 
         if (is_string($file)) {
@@ -45,15 +48,7 @@ class File
                     $forceCreate = true;
                 }
             }
-
-            if (!is_int(stripos($file, './'))) {
-                $file = './' . $file;
-            } else {
-                if (intval(stripos($file, './')) !== 0) {
-                    $file = './' . $file;
-                }
-            }
-            $file = str_replace(['//'], ['/'], $file);
+            $file = WingedLib::clearPath($file);
         }
 
         $file_accent = $file;
@@ -225,7 +220,7 @@ class File
     {
         if ($this->file_path != null) {
             $this->handler = fopen($this->file_path, 'w+');
-            if($this->handler){
+            if ($this->handler) {
                 fwrite($this->handler, $content);
                 fclose($this->handler);
                 $this->new = false;
@@ -367,9 +362,7 @@ class File
      */
     public function exists()
     {
-        if ($this->file_path != null) {
-            if (file_exists($this->file_path) && !is_dir($this->file_path)) return $this;
-        }
+        if (file_exists($this->file_path) && !is_dir($this->file_path)) return $this;
         return false;
     }
 

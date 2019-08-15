@@ -7,8 +7,9 @@ use Winged\Directory\Directory;
 use Winged\File\File;
 use Winged\Frontend\Render;
 use Winged\Http\HttpResponseHandler;
+use Winged\Route\Route;
 use Winged\Utils\WingedLib;
-use Winged\Winged;
+use Winged\App\App;
 use \WingedConfig;
 use Winged\Error\Error;
 
@@ -28,51 +29,37 @@ class Controller extends Render
     private $action_name = false;
     private $query_params = [];
     private $method_args = [];
-    private $controller_reset = false;
-    private $error_level = 0;
-    private $vitual_success = false;
 
     /**
-     * @var bool | callable $beforeSearch
+     * @var null | Route
      */
-    public static $beforeSearch = false;
+    private $route = null;
 
-    /**
-     * @var bool | callable $whenNotFound
-     */
-    public static $whenNotFound = false;
-
-    /**
-     * called in all requests before search any controller
-     *
-     * @param null $calback
-     */
-    public static function beforeSearch($calback = null)
-    {
-        if (is_callable($calback)) {
-            self::$beforeSearch = $calback;
-        }
-    }
-
-    /**
-     * called in all requests when any controller not founded
-     *
-     * @param null $calback
-     */
-    public static function whenNotFound($calback = null)
-    {
-        if (is_callable($calback)) {
-            self::$whenNotFound = $calback;
-        }
-    }
 
     /**
      * Controller constructor.
+     *
+     * @param null $route
      */
-    public function __construct()
+    public function __construct($route = null)
     {
-        $this->copy();
+        $this->route = $route;
         parent::__construct();
+    }
+
+    /**
+     * @param $route null | Route
+     *
+     * @return null | Route
+     */
+    public function route($route = null)
+    {
+        if($route && is_object($route)){
+            if(get_class($route) === 'Winged\Route\Route'){
+                $this->route = $route;
+            }
+        }
+        return $this->route;
     }
 
     /**
@@ -89,225 +76,6 @@ class Controller extends Render
         return $this;
     }
 
-    /**
-     * try to find a controller based into string like an URI
-     *
-     * @param string $path
-     *
-     * @return array|bool
-     * @throws \ReflectionException
-     */
-    public function virtualString($path = '')
-    {
-        $exp = explode('/', $path);
-        if (count7($exp) >= 1 && $exp[0] != '') {
-            Winged::$controller_page = $exp[0];
-            if (isset($exp[1])) {
-                Winged::$controller_action = $exp[1];
-                array_splice($exp, 1, 1);
-            } else {
-                Winged::$controller_action = 'index';
-            }
-            array_splice($exp, 0, 1);
-        }
-        if (count7($exp) > 0) {
-            Winged::$params = $exp;
-        }
-        $find = $this->find();
-        if ($find) {
-            $this->vitual_success = true;
-            Winged::$controller = $this;
-        }
-        return $find;
-    }
-
-    /**
-     * simulates a call like a request to an controller with explicit call
-     *
-     * @param       $controller
-     * @param bool  $action
-     * @param array $uri
-     *
-     * @return array|bool
-     * @throws \ReflectionException
-     */
-    public function virtual($controller, $action = false, $uri = [])
-    {
-        Winged::$controller_page = $controller;
-        if ($action === false) {
-            Winged::$controller_action = 'index';
-        } else {
-            Winged::$controller_action = $action;
-        }
-        if (is_array($uri)) {
-            Winged::$params = $uri;
-        }
-        $find = $this->find();
-        if ($find) {
-            $this->vitual_success = true;
-            Winged::$controller = $this;
-        }
-        return $find;
-    }
-
-    /**
-     * look for all aspects in controller
-     * check if directory <path>/controller exists
-     * check if file controller exists
-     * check if class inside controller exists and match with name founded in URI
-     *
-     * @param string $controller_name
-     * @param string $action_name
-     *
-     * @return array|bool
-     */
-    public static function controllerObserver($controller_name = '', $action_name = '')
-    {
-        if (WingedConfig::$config->PARENT_FOLDER_MVC) {
-            self::$CONTROLLERS_PATH = Winged::$parent . WingedLib::clearPath(self::$CONTROLLERS_PATH) . '/';
-            self::$MODELS_PATH = Winged::$parent . WingedLib::clearPath(self::$MODELS_PATH) . '/';
-            self::$VIEWS_PATH = Winged::$parent . WingedLib::clearPath(self::$VIEWS_PATH) . '/';
-        } else {
-            self::$CONTROLLERS_PATH = WingedLib::clearPath(self::$CONTROLLERS_PATH) . '/';
-            self::$MODELS_PATH = WingedLib::clearPath(self::$MODELS_PATH) . '/';
-            self::$VIEWS_PATH = WingedLib::clearPath(self::$VIEWS_PATH) . '/';
-        }
-        $controller_name = self::getControllerName($controller_name);
-        $directory = new Directory(self::$CONTROLLERS_PATH, false);
-        $controller = new File(self::$CONTROLLERS_PATH . $controller_name . '.php', false);
-        if ($directory->exists()) {
-            if ($controller->exists()) {
-                $action_name = self::getActionName($action_name);
-                include_once $controller->file_path;
-                if (class_exists($controller_name)) {
-                    return [
-                        'action' => $action_name,
-                        'controller' => $controller_name,
-                        'path' => $controller->file_path
-                    ];
-                } else {
-                    if (WingedConfig::$config->CONTROLLER_DEBUG) {
-                        trigger_error("Controller class '" . $controller_name . "' no exists in file '" . $controller->file_path . "'", E_USER_ERROR);
-                    }
-                }
-            } else {
-                trigger_error("File '" . $controller->file_path . "' no exists", E_USER_ERROR);
-            }
-        } else {
-            trigger_error("Directory '" . $directory->folder . "' no exists", E_USER_ERROR);
-        }
-        return false;
-    }
-
-    /**
-     * @return array|bool
-     * @throws \ReflectionException
-     */
-    public function find()
-    {
-        if (!$this->reset()) {
-            $observer = self::controllerObserver();
-            if ($observer) {
-                $this->action_name = $observer['action'];
-                $this->controller_path = $observer['path'];
-                $this->controller_name = $observer['controller'];
-                if (is_array(Winged::$controller_params)) {
-                    if (in_array(Winged::$controller_action, Winged::$controller_params)) {
-                        $key = array_search(Winged::$controller_action, Winged::$controller_params);
-                        unset(Winged::$controller_params[$key]);
-                    }
-                    if (in_array(Winged::$controller_page, Winged::$controller_params)) {
-                        $key = array_search(Winged::$controller_page, Winged::$controller_params);
-                        unset(Winged::$controller_params[$key]);
-                    }
-                    Winged::$controller_params = array_values(Winged::$controller_params);
-                }
-                $obj = new $this->controller_name();
-                if (method_exists($obj, 'beforeAction')) {
-                    $to_call = [];
-                    $this->getGetArgs();
-                    $reflect = new \ReflectionMethod($this->controller_name, 'beforeAction');
-                    $apply = $reflect->getParameters();
-
-                    if (!empty($apply)) {
-                        foreach ($apply as $key => $value) {
-                            if (isset($this->method_args[$value->name])) {
-                                $to_call[] = $this->method_args[$value->name];
-                            }
-                        }
-                    }
-
-                    $return = $reflect->invokeArgs($obj, [Winged::$controller_action]);
-                    if ($return !== null) {
-                        if (is_array($return)) {
-                            try {
-                                $json = json_encode($return);
-                                echo $json;
-                            } catch (\Exception $error) {
-                                return true;
-                            }
-                        }
-                        return true;
-                    }
-                }
-                $to_call = [];
-                if (method_exists($obj, $this->action_name)) {
-                    $this->getGetArgs();
-                    $reflect = new \ReflectionMethod($this->controller_name, $this->action_name);
-                    $apply = $reflect->getParameters();
-                    $controller_warn = false;
-                    if (!empty($apply)) {
-                        foreach ($apply as $key => $value) {
-                            if (!isset($this->method_args[$value->name])) {
-                                $controller_warn = true;
-                                Error::push(__CLASS__, "Action '" . $this->action_name . "' requires parameter'" . $value->name . "'", __FILE__, __LINE__);
-                            } else {
-                                $to_call[] = $this->method_args[$value->name];
-                            }
-                        }
-                    }
-                    if (!$controller_warn) {
-                        if ($this->error_level == 1) {
-                            Error::clear();
-                        }
-                        $return = $reflect->invokeArgs($obj, $to_call);
-                        if (is_array($return)) {
-                            try {
-                                $json = json_encode($return);
-                                echo $json;
-                            } catch (\Exception $error) {
-                                return true;
-                            }
-                        }
-                    }
-                } else {
-                    if (method_exists($obj, 'whenActionNotFound')) {
-                        $reflect = new \ReflectionMethod($this->controller_name, 'whenActionNotFound');
-                        $apply = $reflect->getParameters();
-                        if (!empty($apply)) {
-                            foreach ($apply as $key => $value) {
-                                if (isset($this->method_args[$value->name])) {
-                                    $to_call[] = $this->method_args[$value->name];
-                                }
-                            }
-                        }
-                        $return = $reflect->invokeArgs($obj, [Winged::$controller_action]);
-                        if (is_array($return)) {
-                            try {
-                                $json = json_encode($return);
-                                echo $json;
-                            } catch (\Exception $error) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return $observer;
-            }
-            return $observer;
-        }
-        return false;
-    }
 
     /**
      * get query string from $_GET + opction $push param
@@ -350,89 +118,7 @@ class Controller extends Render
         return $param;
     }
 
-    /**
-     * reset main controller informations
-     * check if other config file exists inside parent dir
-     * rebuild configs and try to find controller again
-     *
-     * @return bool
-     */
-    private function reset()
-    {
-        $parent = Winged::$parent;
-        $outher_conf = $parent . "config/config.php";
-        if (file_exists($outher_conf) && !is_directory($outher_conf) && !$this->controller_reset) {
-            include_once $outher_conf;
-            mb_internal_encoding(WingedConfig::$config->INTERNAL_ENCODING);
-            mb_http_output(WingedConfig::$config->OUTPUT_ENCODING);
-            Error::clear();
-            $this->controller_reset = true;
-            Connections::closeAll();
-            Connections::init();
-            Winged::start();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * get controller name founded in URI if $name param not passed
-     * if passed convert name into Camel Case format
-     *
-     * @param bool $name
-     *
-     * @return string
-     */
-    public static function getControllerName($name = false)
-    {
-        if (!$name) {
-            $name = Winged::$controller_page;
-        }
-        $exp = explode("-", str_replace(['.', '_'], '-', $name));
-        foreach ($exp as $index => $names) {
-            $exp[$index] = ucfirst($exp[$index]);
-        }
-        return trim(implode('', $exp) . 'Controller');
-    }
-
-    /**
-     * get action name founded in URI if $name param not passed
-     * if passed convert name into Camel Case format
-     *
-     * @param bool $name
-     *
-     * @return string
-     */
-    public static function getActionName($name = false)
-    {
-        if (!$name) {
-            $name = Winged::$controller_action;
-        }
-        $exp = explode("-", str_replace(['.', '_'], '-', $name));
-        foreach ($exp as $index => $names) {
-            $exp[$index] = ucfirst($exp[$index]);
-        }
-        return trim('action' . implode('', $exp));
-    }
-
-    /**
-     * put $_GET inside current controller
-     */
-    public function getGetArgs()
-    {
-        foreach ($_GET as $index => $value) {
-            if (is_array($value)) {
-                $this->method_args[$index] = $value;
-            } else if ((intval($value) == 0 && $value == '0') || intval($value) > 0) {
-                $this->method_args[$index] = (int)$value;
-            } else {
-                $this->method_args[$index] = $value;
-            }
-        }
-        return;
-    }
-
-    /**
+      /**
      * redirect to any location, full URL string is required
      *
      * @param string $path
@@ -496,16 +182,16 @@ class Controller extends Render
             $args = '?' . $args;
         }
         if (WingedConfig::$config->PARENT_FOLDER_MVC) {
-            $parent = WingedLib::clearPath(Winged::$parent);
+            $parent = WingedLib::clearPath(App::$parent);
             if ($parent == '') {
-                header('Location: ' . Winged::$protocol . $path . $args);
+                header('Location: ' . App::$protocol . $path . $args);
             } else {
-                header('Location: ' . Winged::$protocol . $parent . '/' . $path . $args);
+                header('Location: ' . App::$protocol . $parent . '/' . $path . $args);
             }
         } else {
-            header('Location: ' . Winged::$protocol . $path . $args);
+            header('Location: ' . App::$protocol . $path . $args);
         }
-        Winged::_exit();
+        App::_exit();
     }
 
     /**
@@ -520,23 +206,23 @@ class Controller extends Render
     public function setNicknamesToUri($nicks = [])
     {
         $narr = [];
-        if (Winged::$controller_params == false) {
-            Winged::$controller_params = [];
+        if (App::$controller_params == false) {
+            App::$controller_params = [];
         }
-        if (count7($nicks) > count7(Winged::$controller_params)) {
+        if (count7($nicks) > count7(App::$controller_params)) {
             for ($x = 0; $x < count7($nicks); $x++) {
-                if (array_key_exists($x, Winged::$controller_params)) {
-                    $narr[$nicks[$x]] = Winged::$controller_params[$x];
+                if (array_key_exists($x, App::$controller_params)) {
+                    $narr[$nicks[$x]] = App::$controller_params[$x];
                 } else {
                     $narr[$nicks[$x]] = null;
                 }
             }
         } else {
             for ($x = 0; $x < count7($nicks); $x++) {
-                $narr[$nicks[$x]] = Winged::$controller_params[$x];
+                $narr[$nicks[$x]] = App::$controller_params[$x];
             }
         }
-        Winged::$controller_params = $narr;
+        App::$controller_params = $narr;
     }
 
     /**
@@ -544,13 +230,13 @@ class Controller extends Render
      */
     public function copy()
     {
-        if (Winged::$controller !== null) {
-            Winged::$controller->getGetArgs();
-            $this->controller_path = Winged::$controller->controller_path;
-            $this->controller_name = Winged::$controller->controller_name;
-            $this->query_params = Winged::$controller->query_params;
-            $this->method_args = Winged::$controller->method_args;
-            $this->action_name = Winged::$controller->action_name;
+        if (App::$controller !== null) {
+            App::$controller->getGetArgs();
+            $this->controller_path = App::$controller->controller_path;
+            $this->controller_name = App::$controller->controller_name;
+            $this->query_params = App::$controller->query_params;
+            $this->method_args = App::$controller->method_args;
+            $this->action_name = App::$controller->action_name;
         }
     }
 

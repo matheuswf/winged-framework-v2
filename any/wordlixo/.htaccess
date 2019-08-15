@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .(/)?$ 'mixed/wingedframework.com.br/any/wordlixo/index.php'

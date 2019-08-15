@@ -7,7 +7,7 @@ use Winged\Date\Date;
 use Winged\External\MatthiasMullie\Minify\Minify\CSS;
 use Winged\File\File;
 use Winged\Utils\RandomName;
-use Winged\Winged;
+use Winged\App\App;
 use \WingedConfig;
 
 /**
@@ -174,7 +174,7 @@ class MinifyCSS extends MinifyMaster
                         $fileObject = new File($fileImported, false);
                         if ($fileObject->exists()) {
                             $cssString = str_replace('  ', ' ', $cssString);
-                            $cssString = str_replace([$full_string], 'url("' . Winged::$protocol . '__winged_file_handle_core__/' . base64_encode($fileObject->file_path) . '")', $cssString);
+                            $cssString = str_replace([$full_string], 'url("' . App::$protocol . '__winged_file_handle_core__/' . base64_encode($fileObject->file_path) . '")', $cssString);
                         }
                     }
                 }

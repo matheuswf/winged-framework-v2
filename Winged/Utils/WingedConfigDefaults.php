@@ -28,10 +28,10 @@ class WingedConfigDefaults
     public $DEV = true;
 
     /**
-     * @property $DEFAULT_URI string
+     * @property $INDEX_ALIAS_URI string
      * defines the name of your primary controller / router when no name for controller was found in the url
      */
-    public $DEFAULT_URI = false;
+    public $INDEX_ALIAS_URI = false;
 
     /**
      * @property $CONTROLLER_DEBUG bool

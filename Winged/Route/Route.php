@@ -3,7 +3,10 @@
 namespace Winged\Route;
 
 use Winged\App\Request;
+use Winged\App\RequestMiddleware;
 use Winged\App\Response;
+use Winged\App\ResponseMiddleware;
+use Winged\Controller\Controller;
 use Winged\Date\Date;
 use Winged\Http\Session;
 use Winged\Utils\DeepClone;
@@ -32,7 +35,7 @@ class Route
     /**
      * @var $routes Route[]
      */
-    protected static $groups = [];
+    protected $groups = [];
 
     /**
      * @var $name string
@@ -50,11 +53,11 @@ class Route
 
     protected $method;
 
-    protected $vars;
+    protected $vars = [];
 
     protected $uri;
 
-    protected $parsed_uri;
+    protected $parsed_uri = [];
 
     protected $uri_count;
 
@@ -64,8 +67,6 @@ class Route
 
     protected $statusCode = 200;
 
-    protected $valid;
-
     protected $rules = [];
 
     protected $origins = [];
@@ -73,6 +74,16 @@ class Route
     protected $createSessionOptions = [];
 
     protected $errors = [];
+
+    /**
+     * @var ResponseMiddleware[]
+     */
+    protected $responseMiddleware = [];
+
+    /**
+     * @var RequestMiddleware[]
+     */
+    protected $requestMiddleware = [];
 
     /**
      * @var int
@@ -94,6 +105,8 @@ class Route
      */
     protected $response = null;
 
+    protected $continue = false;
+
     /**
      * Route constructor.
      *
@@ -102,8 +115,8 @@ class Route
     public function __construct($name)
     {
         $this->name = $name;
-        $this->request = App::getRequest();
-        $this->response = App::getResponse();
+        $this->request = new Request();
+        $this->response = new Response($this->request);
     }
 
     /**
@@ -328,25 +341,6 @@ class Route
     /**
      * @return mixed
      */
-    public function getValid()
-    {
-        return $this->valid;
-    }
-
-    /**
-     * @param mixed $valid
-     *
-     * @return Route
-     */
-    public function setValid($valid)
-    {
-        $this->valid = $valid;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getRules()
     {
         return $this->rules;
@@ -486,6 +480,117 @@ class Route
         $this->statusCode = $statusCode;
         return $this;
     }
+
+    /**
+     * @return Route[]
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param Route[] $groups
+     *
+     * @return Route
+     */
+    public function setGroups($groups)
+    {
+        $this->groups = $groups;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResponseMiddleware()
+    {
+        return $this->responseMiddleware;
+    }
+
+    /**
+     * @param array $responseMiddleware
+     *
+     * @return Route
+     */
+    public function setResponseMiddleware($responseMiddleware)
+    {
+        $this->responseMiddleware = $responseMiddleware;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestMiddleware()
+    {
+        return $this->requestMiddleware;
+    }
+
+    /**
+     * @param array $requestMiddleware
+     *
+     * @return Route
+     */
+    public function setRequestMiddleware($requestMiddleware)
+    {
+        $this->requestMiddleware = $requestMiddleware;
+        return $this;
+    }
+
+    /**
+     * @param $middleware RequestMiddleware
+     *
+     * @return $this
+     */
+    public function addRequestMiddleware($middleware)
+    {
+        if (get_class($middleware) === 'Winged\App\RequestMiddleware') {
+            $this->requestMiddleware[] = $middleware;
+        }
+        return $this;
+    }
+
+    /**
+     * @param $middleware ResponseMiddleware
+     *
+     * @return $this
+     */
+    public function addResponseMiddleware($middleware)
+    {
+        if (get_class($middleware) === 'Winged\App\ResponseMiddleware') {
+            $this->responseMiddleware[] = $middleware;
+        }
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getContinue()
+    {
+        return $this->continue;
+    }
+
+    /**
+     * @param bool $continue
+     *
+     * @return Route
+     */
+    public function setContinue($continue)
+    {
+        $this->continue = $continue;
+        return $this;
+    }
+
+    /**
+     * jump to next route in filtered routes
+     */
+    public function nextRoute()
+    {
+        $this->continue = true;
+    }
+
 
     /**
      * @return $this
@@ -634,7 +739,7 @@ class Route
     public function name($name)
     {
         if (is_string($name)) {
-            Route::$routes[$name] = Route::$routes[$this->name];
+            Route::$routes[$name] = &Route::$routes[$this->name];
             unset(Route::$routes[$this->name]);
             $this->name = $name;
         }
@@ -730,6 +835,7 @@ class Route
     {
         if (is_string($property) && (is_callable($rule) || is_string($rule))) {
             $property = str_replace('$$', '$', '$' . $property);
+            /*
             $ok = false;
             foreach ($this->parsed_uri as $parsed) {
                 if ($parsed['type'] === 'arg' && ($parsed['name'] === $property)) {
@@ -738,11 +844,12 @@ class Route
                 }
             }
             if ($ok) {
-                if (!array_key_exists($property, $this->rules)) {
-                    $this->rules[$property] = [];
-                }
-                $this->rules[$property][] = $rule;
+            */
+            if (!array_key_exists($property, $this->rules)) {
+                $this->rules[$property] = [];
             }
+            $this->rules[$property][] = $rule;
+            /*}*/
         }
         return $this;
     }
@@ -763,179 +870,11 @@ class Route
         return $this->request;
     }
 
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function get($uri, $callback)
+    public function reparse()
     {
-        return self::parseRegister('get', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function post($uri, $callback)
-    {
-        return self::parseRegister('post', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function put($uri, $callback)
-    {
-        return self::parseRegister('put', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function patch($uri, $callback)
-    {
-        return self::parseRegister('patch', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function options($uri, $callback)
-    {
-        return self::parseRegister('options', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function delete($uri, $callback)
-    {
-        return self::parseRegister('delete', $uri, $callback);
-    }
-
-    /**
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    public static function raw($uri, $callback)
-    {
-        return self::parseRegister('raw', $uri, $callback);
-    }
-
-    /**
-     * @param $callback
-     */
-    public static function notFound($callback)
-    {
-        if (is_callable($callback)) {
-            self::$notFound = new Route('__default_not_found_route__');
-            self::$notFound->setStatusCode(404);
-            self::$notFound->setFailedIn(404);
-            self::$notFound->setStatus('404 Not found');
-            self::$notFound->setCallable($callback);
-        }
-    }
-
-    /**
-     * @param $array
-     * @param $xml
-     */
-    public static function arrayToXml($array, &$xml)
-    {
-        /**
-         * @var $xml \SimpleXMLElement
-         */
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                if (is_int($key)) {
-                    $key = "e";
-                }
-                $label = $xml->addChild($key);
-                self::arrayToXml($value, $label);
-            } else {
-                $xml->addChild($key, $value);
-            }
-        }
-    }
-
-    public static function group($basePath, $routes = [])
-    {
-
-    }
-
-    /**
-     * @param $method
-     * @param $uri
-     * @param $callback
-     *
-     * @return Route
-     */
-    protected static function parseRegister($method, $uri, $callback)
-    {
-        $name = RandomName::generate('sisisi', false, false);
-        $route = new Route($name);
-        $route->setHttp('raw');
-        if (in_array($method, ['get', 'post', 'delete', 'put', 'patch', 'options', 'raw'])) {
-            $route->setHttp($method);
-        }
-        $uri = WingedLib::clearPath($uri);
-        if (!$uri) {
-            $uri = '/';
-        }
-        $route->setUri($uri);
-        if (is_string($callback)) {
-            //test if callback is string configuration for model@method
-            $exp = explode('@', $callback);
-            if (count7($exp) === 2) {
-                $className = explode('\\', $exp[0]);
-                $className = end($className);
-                if (file_exists("./models/" . $className . ".php")) {
-                    $obj = new $exp[0]();
-                } else {
-                    $obj = false;
-                }
-                if (method_exists($obj, $exp[1])) {
-                    $route->setClass($obj);
-                    $route->setMethod($exp[1]);
-                } else {
-                    $route->setFailedIn(502);
-                }
-            }
-            if ($route->getFailedIn() === 502) {
-                $route->setStatus('Callback malformed or not configured, response from this URI ever is 502. Contact admin server or programmer of this system.');
-            }
-        } else if (is_array($callback)) {
-            //util to create a token for future requests
-            $route->setCreateSessionOptions($callback);
-        } else if (is_callable($callback) || function_exists($callback)) {
-            //test if callback is a function or name of a existent function
-            $route->setCallable($callback);
-        } else {
-            $route->setFailedIn(502);
-            $route->setStatus('Callback malformed or not configured, response from this URI ever is 502. Contact admin server or programmer of this system.');
-        }
-        //in any case of not configured callback or malformed callback throw 502 bad request
         $parsed = [];
-        $exp = WingedLib::explodePath($uri);
-        $uri = WingedLib::explodePath(App::$uri);
+        $exp = WingedLib::explodePath($this->getUri());
+        $uri = WingedLib::explodePath(App::$parentUri);
         if (!$uri) {
             $uri = [];
         }
@@ -964,15 +903,241 @@ class Route
                 }
                 $current['name'] = $_value;
                 $current['value'] = null;
+                $current['position'] = $index;
                 if (array_key_exists($index, $uri)) {
                     $current['value'] = $uri[$index];
                 }
-                $parsed[$_value] = $current;
+                $parsed[] = $current;
             }
         }
-        $route->setParsedUri($parsed);
-        $route->setUriCount($uri_count);
-        Route::$routes[$name] = &$route;
+        $this->setParsedUri($parsed);
+        $this->setUriCount($uri_count);
+        return $this;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function get($uri, $callback)
+    {
+        $route = self::parseRegister('get', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
         return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function post($uri, $callback)
+    {
+        $route = self::parseRegister('post', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function put($uri, $callback)
+    {
+        $route = self::parseRegister('put', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function patch($uri, $callback)
+    {
+        $route = self::parseRegister('patch', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function options($uri, $callback)
+    {
+        $route = self::parseRegister('options', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function delete($uri, $callback)
+    {
+        $route = self::parseRegister('delete', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    public static function raw($uri, $callback)
+    {
+        $route = self::parseRegister('raw', $uri, $callback);
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param       $baseUri
+     * @param array $routes
+     *
+     * @return mixed|Route
+     */
+    public static function group($baseUri, $routes = [])
+    {
+        $route = self::parseRegister(null, $baseUri, null);
+        if (is_array($routes)) {
+            foreach ($routes as &$groupRoute) {
+                if (get_class($groupRoute) === 'Winged\Route\Route') {
+                    $route->groups[] = &$groupRoute;
+                }
+            }
+        }
+        Route::$routes[$route->getName()] = &$route;
+        return $route;
+    }
+
+    /**
+     * @param $callback
+     *
+     * @return callable|Route|null
+     */
+    public static function notFound($callback)
+    {
+        if (is_callable($callback)) {
+            self::$notFound = new Route('__default_not_found_route__');
+            self::$notFound->setStatusCode(404);
+            self::$notFound->setFailedIn(404);
+            self::$notFound->setStatus('404 Not found');
+            self::$notFound->setCallable($callback);
+            return self::$notFound;
+        }
+    }
+
+    /**
+     * @param $array
+     * @param $xml
+     */
+    public static function arrayToXml($array, &$xml)
+    {
+        /**
+         * @var $xml \SimpleXMLElement
+         */
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                if (is_int($key)) {
+                    $key = "e";
+                }
+                $label = $xml->addChild($key);
+                self::arrayToXml($value, $label);
+            } else {
+                $xml->addChild($key, $value);
+            }
+        }
+    }
+
+    /**
+     * clear all errors of all routes
+     */
+    public static function clearAllErrorsInRoutes()
+    {
+        foreach (self::$routes as &$route) {
+            $route->errors = [];
+            $route->failedIn = false;
+            $route->status = false;
+            $route->statusCode = 200;
+            $route->reparse();
+        }
+    }
+
+
+    /**
+     * @param $method
+     * @param $uri
+     * @param $callback
+     *
+     * @return Route
+     */
+    protected static function parseRegister($method, $uri, $callback)
+    {
+        $name = RandomName::generate('sisisi', false, false);
+        $route = new Route($name);
+        $route->setHttp('raw');
+        if (in_array($method, ['get', 'post', 'delete', 'put', 'patch', 'options', 'raw'])) {
+            $route->setHttp($method);
+        }
+        $uri = WingedLib::clearPath($uri);
+        if (!$uri) {
+            $uri = '/';
+        }
+        $route->setUri($uri);
+        if (is_string($callback)) {
+            //test if callback is string configuration for model@method
+            $exp = explode('@', $callback);
+            if (count7($exp) === 2) {
+                $className = explode('\\', $exp[0]);
+                $className = end($className);
+                try {
+                    $obj = new $exp[0]();
+                    if (is_subclass_of($obj, 'Winged\Controller\Controller')) {
+                        /**
+                         * @var $obj Controller
+                         */
+                        $obj->route($route);
+                    }
+                } catch (\Exception $exception) {
+                    $obj = false;
+                }
+                if (method_exists($obj, $exp[1])) {
+                    $route->setClass($obj);
+                    $route->setMethod($exp[1]);
+                } else {
+                    $route->setFailedIn(502);
+                }
+            }
+            if ($route->getFailedIn() === 502) {
+                $route->setStatus('Callback malformed or not configured, response from this URI ever is 502. Contact admin server or programmer of this system.');
+            }
+        } else if (is_array($callback)) {
+            //util to create a token for future requests
+            $route->setCreateSessionOptions($callback);
+        } else if (is_callable($callback) || function_exists($callback)) {
+            //test if callback is a function or name of a existent function
+            $route->setCallable($callback);
+        } else {
+            $route->setFailedIn(502);
+            $route->setStatus('Callback malformed or not configured, response from this URI ever is 502. Contact admin server or programmer of this system.');
+        }
+        //in any case of not configured callback or malformed callback throw 502 bad request
+        return $route->reparse();
     }
 }

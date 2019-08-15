@@ -3,9 +3,8 @@
 namespace Winged\Error;
 
 use Winged\Buffer\Buffer;
-use Winged\Database\Connections;
 use Winged\Utils\WingedLib;
-use Winged\Winged;
+use Winged\App\App;
 
 register_shutdown_function(["Winged\Error\ShutdownCallback", "shutdownHandler"]);
 
@@ -126,7 +125,7 @@ class Error
             ?>
             <html>
             <head>
-                <base href="<?= Winged::$protocol . "Winged/" ?>">
+                <base href="<?= App::$protocol . "Winged/" ?>">
                 <title>Stack Trace</title>
                 <meta charset="utf-8"/>
                 <link href="Error/assets/winged.error.css" rel="stylesheet" type="text/css"/>
@@ -228,7 +227,7 @@ class Error
             Buffer::flush();
             Error::clear();
             if ($exit) {
-                Winged::_exit();
+                App::_exit();
             }
         }
     }

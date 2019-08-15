@@ -6,7 +6,7 @@ use Winged\Database\Connections;
 use Winged\Directory\Directory;
 use Winged\File\File;
 use Winged\Buffer\Buffer;
-use Winged\Winged;
+use Winged\App\App;
 
 class Image extends File
 {
@@ -179,7 +179,7 @@ class Image extends File
                     header_remove();
                     header('Content-type: image/png');
                     imagepng($this->original, null, $quality);
-                    Winged::_exit();
+                    App::_exit();
                     break;
                 case 'jpeg':
                     if ($quality > 100) {
@@ -192,7 +192,7 @@ class Image extends File
                     header_remove();
                     header('Content-type: image/jpeg');
                     imagejpeg($this->original, null, $quality);
-                    Winged::_exit();
+                    App::_exit();
                     break;
                 case 'jpg':
                     if ($quality > 100) {
@@ -205,14 +205,14 @@ class Image extends File
                     header_remove();
                     header('Content-type: image/jpeg');
                     imagejpeg($this->original, null, $quality);
-                    Winged::_exit();
+                    App::_exit();
                     break;
                 case 'gif':
                     Buffer::kill();
                     header_remove();
                     header('Content-type: image/gif');
                     imagegif($this->original, null);
-                    Winged::_exit();
+                    App::_exit();
                     break;
                 default:
                     break;

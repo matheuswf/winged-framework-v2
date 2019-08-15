@@ -1,26 +1,5 @@
 <?php
 
-$persists = 0;
-
-if (!defined('DOCUMENT_ROOT')) {
-    $document_root = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME']);
-    $document_root = explode('/', $document_root);
-    array_pop($document_root);
-    $document_root = join('/', $document_root);
-    while (!file_exists($document_root . '/Winged')) {
-        $document_root = explode('/', $document_root);
-        array_pop($document_root);
-        if (count($document_root) <= 1) {
-            $persists++;
-        }
-        $document_root = join('/', $document_root);
-        if ($persists === 2) {
-            die('Die. Folder Winged not found in any location.');
-        }
-    }
-    define('DOCUMENT_ROOT', $document_root . '/');
-}
-
 if (defined('PARENT_DIR_PAGE_NAME')) {
     return null;
 }

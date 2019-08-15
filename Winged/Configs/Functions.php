@@ -1,7 +1,7 @@
 <?php
 
 use Winged\Buffer\Buffer;
-use Winged\Winged;
+use Winged\App\App;
 use Winged\Database\CurrentDB;
 
 /**
@@ -458,18 +458,18 @@ function is_options()
  */
 function uri($index)
 {
-    if (Winged::$params == false) {
-        Winged::$params = [];
+    if (App::$params == false) {
+        App::$params = [];
     }
-    if (Winged::$controller_params == false) {
-        Winged::$controller_params = [];
+    if (App::$controller_params == false) {
+        App::$controller_params = [];
     }
-    if (array_key_exists($index, Winged::$params)) {
-        return no_injection(Winged::$params[$index]);
+    if (array_key_exists($index, App::$params)) {
+        return no_injection(App::$params[$index]);
     }
 
-    if (array_key_exists($index, Winged::$controller_params)) {
-        return no_injection(Winged::$controller_params[$index]);
+    if (array_key_exists($index, App::$controller_params)) {
+        return no_injection(App::$controller_params[$index]);
     }
     return false;
 }
@@ -588,7 +588,7 @@ function pre($array, $die = false)
     print_r($array);
     echo "</pre>";
     if ($die) {
-        Winged::_exit();
+        App::_exit();
     }
 }
 
@@ -626,7 +626,7 @@ function pre_clear_buffer_die($array = [])
     </html>
     <?php
     Buffer::flush();
-    Winged::_exit();
+    App::_exit();
 }
 
 $printed_pre = [];
@@ -692,7 +692,7 @@ function delegate_pre($die = false)
         echo "</pre>";
     }
     if ($die) {
-        Winged::_exit();
+        App::_exit();
         exit;
     }
 }
@@ -736,7 +736,7 @@ function delegate_pre_clear_buffer_die()
         </html>
         <?php
         Buffer::flush();
-        Winged::_exit();
+        App::_exit();
         exit;
     }
 }

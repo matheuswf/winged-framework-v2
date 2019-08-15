@@ -14,7 +14,7 @@ class WingedConfig extends WingedConfigDefaults
      * no delete this property
      */
     public static $config = null;
-    public $DEFAULT_URI = "home";
+    public $INDEX_ALIAS_URI = "./home/hue";
     public $TIMEZONE = "America/Sao_Paulo";
     public $AUTO_MINIFY = 10;
     public $HTML_LANG = 'pt-BR';

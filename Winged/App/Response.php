@@ -90,7 +90,7 @@ class Response extends HttpResponseHandler
     public function __construct(&$request = null, $headers = [])
     {
         $this->headers = $headers;
-        if (is_object($request) && get_class($request) === 'Winged\App\Resquest') {
+        if (is_object($request) && get_class($request) === 'Winged\App\Request') {
             $this->request = $request;
         } else {
             $this->request = App::getRequest();
