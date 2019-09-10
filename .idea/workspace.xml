@@ -178,19 +178,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/any/wordlixo/app.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
-              <folding>
-                <element signature="e#7#30#0#PHP" expanded="true" />
-              </folding>
+              <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -218,15 +206,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="476">
               <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/any/wordlixo/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -414,24 +393,6 @@
             <path>
               <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
               <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-              <item name="any" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-              <item name="any" type="462c0819:PsiDirectoryNode" />
-              <item name="wordlixo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wingedframework.com.br" type="462c0819:PsiDirectoryNode" />
-              <item name="any" type="462c0819:PsiDirectoryNode" />
-              <item name="wordlixo" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wingedframework.com.br" type="b2602c69:ProjectViewProjectNode" />
@@ -934,12 +895,12 @@
       <workItem from="1565784806069" duration="13432000" />
       <workItem from="1565819513745" duration="340000" />
       <workItem from="1565870050538" duration="660000" />
-      <workItem from="1565875018265" duration="50000" />
+      <workItem from="1565875018265" duration="176000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1584462000" />
+    <option name="totallyTimeSpent" value="1584588000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1383,7 +1344,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
         </state>
       </provider>
     </entry>
